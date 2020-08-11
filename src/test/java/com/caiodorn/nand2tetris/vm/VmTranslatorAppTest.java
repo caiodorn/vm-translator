@@ -11,8 +11,8 @@ public class VmTranslatorAppTest {
 
     @Test
     public void shouldGenerateOutputFile() {
-        VmTranslatorApp.main(new String[]{"src/test/resources/input.vm"});
-        assertTrue(Files.exists(Paths.get("input.asm")));
+        VmTranslatorApp.main(new String[]{"src/test/resources/BasicTest.vm"});
+        assertTrue(Files.exists(Paths.get("BasicTest.asm")));
     }
 
 }

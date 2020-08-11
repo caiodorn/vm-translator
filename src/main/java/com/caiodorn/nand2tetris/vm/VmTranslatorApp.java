@@ -16,18 +16,23 @@ public class VmTranslatorApp {
         }
 
         //TODO might have to translate multiple files
-        final String fullyQualifiedFileName = args[0];
-        final int fileNamePosition = fullyQualifiedFileName.split("/").length - 1;
-        final String fileName = fullyQualifiedFileName.split("/")[fileNamePosition];
-        final String outputFileName = fileName.split("\\.")[0].concat(".asm");
+        final String fullyQualifiedInputFileName = args[0];
 
         try {
-            List<String> rawLines = Files.readAllLines(Paths.get(fullyQualifiedFileName));
-            Files.write(Paths.get(outputFileName), rawLines);
+            List<String> rawLines = Files.readAllLines(Paths.get(fullyQualifiedInputFileName));
+            Files.write(Paths.get(createOutputFileName(fullyQualifiedInputFileName)), rawLines);
         } catch (IOException e) {
             log.error("An error occurred!", e);
             throw new RuntimeException(e);
         }
+    }
+
+    private static String createOutputFileName(String fullyQualifiedFileName) {
+        int fileNamePosition = fullyQualifiedFileName.split("/").length - 1;
+        String fileName = fullyQualifiedFileName.split("/")[fileNamePosition];
+        String outputFileName = fileName.split("\\.")[0].concat(".asm");
+
+        return outputFileName;
     }
 
 }
