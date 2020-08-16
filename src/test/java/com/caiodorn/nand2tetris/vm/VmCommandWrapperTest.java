@@ -22,7 +22,7 @@ public class VmCommandWrapperTest {
         expectedOutput.add("@SP");
         expectedOutput.add("M=M+1");
 
-        assertEquals(expectedOutput, VmCommandWrapper.of(vmCommand).asAssemblyCode());
+        assertEquals(expectedOutput, VmCommandWrapper.of(vmCommand).asAssemblyCommands());
     }
 
 }

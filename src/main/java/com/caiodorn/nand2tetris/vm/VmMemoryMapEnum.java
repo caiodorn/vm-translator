@@ -1,6 +1,6 @@
 package com.caiodorn.nand2tetris.vm;
 
-public enum VmMapEnum {
+public enum VmMemoryMapEnum {
 
     SP(0),
     LCL(1),
@@ -12,7 +12,7 @@ public enum VmMapEnum {
 
     private final int ramAddr;
 
-    VmMapEnum(int ramAddr) {
+    VmMemoryMapEnum(int ramAddr) {
         this.ramAddr = ramAddr;
     }
 
