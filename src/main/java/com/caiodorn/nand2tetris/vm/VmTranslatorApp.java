@@ -20,6 +20,11 @@ public class VmTranslatorApp {
 
         try {
             List<String> rawLines = Files.readAllLines(Paths.get(fullyQualifiedInputFileName));
+
+            if (rawLines.isEmpty()) {
+                throw new RuntimeException("File cannot be empty!");
+            }
+
             List<String> assemblyCode = new BytecodeParser().parse(rawLines);
             Files.write(Paths.get(createOutputFileName(fullyQualifiedInputFileName)), assemblyCode);
         } catch (IOException e) {

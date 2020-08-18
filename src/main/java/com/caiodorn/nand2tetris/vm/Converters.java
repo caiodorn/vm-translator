@@ -22,8 +22,26 @@ public final class Converters {
         return assemblyCommands;
     };
 
+    private static final Function<String, List<String>> PUSH_LOCAL_CONVERTER = (s) -> {
+        List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@LCL");
+        assemblyCommands.add("A=D+M");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@LCL");
+        assemblyCommands.add("M=M-1");
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("M=M+1");
+        assemblyCommands.add("A=M-1");
+        assemblyCommands.add("M=D");
+
+        return assemblyCommands;
+    };
+
     private static final Map<VmCommandTypeEnum, Function<String, List<String>>> CONVERTERS = Map.of(
-            VmCommandTypeEnum.PUSH_CONSTANT, PUSH_CONSTANT_CONVERTER
+            VmCommandTypeEnum.PUSH_CONSTANT, PUSH_CONSTANT_CONVERTER,
+            VmCommandTypeEnum.PUSH_LOCAL, PUSH_LOCAL_CONVERTER
     );
 
     private Converters() {}

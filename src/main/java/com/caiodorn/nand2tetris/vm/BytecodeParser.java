@@ -9,7 +9,7 @@ public class BytecodeParser {
 
     public List<String> parse(List<String> vmCommands) {
         List<String> asmCommands = new ArrayList<>();
-
+        inializePointers(asmCommands);
         removeInvalidChars(vmCommands).forEach(command -> asmCommands.addAll(VmCommandWrapper.of(command).asAssemblyCommands()));
 
         return asmCommands;
@@ -31,6 +31,17 @@ public class BytecodeParser {
         nonEmptyLines.forEach(line -> cleanedUpLines.add(line.split(commentDelimiter)[0]));
 
         return cleanedUpLines;
+    }
+
+    private static void inializePointers(List<String> asmCommands) {
+        asmCommands.add("@255");
+        asmCommands.add("D=A");
+        asmCommands.add("@SP");
+        asmCommands.add("M=D");
+        asmCommands.add("@2048");
+        asmCommands.add("D=A");
+        asmCommands.add("@LCL");
+        asmCommands.add("M=D");
     }
 
 }

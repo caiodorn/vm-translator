@@ -11,4 +11,9 @@ public class ConvertersTest {
         assertNotNull(Converters.getConverter(VmCommandTypeEnum.PUSH_CONSTANT.getType()));
     }
 
+    @Test
+    public void shouldReturnConverter_whenPushLocalType() {
+        assertNotNull(Converters.getConverter(VmCommandTypeEnum.PUSH_LOCAL.getType()));
+    }
+
 }

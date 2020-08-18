@@ -13,8 +13,11 @@ public class VmMemoryMapEnumTest {
         assertEquals(2, VmMemoryMapEnum.ARG.getRamAddr());
         assertEquals(3, VmMemoryMapEnum.THIS.getRamAddr());
         assertEquals(4, VmMemoryMapEnum.THAT.getRamAddr());
+        assertEquals(16, VmMemoryMapEnum.STATIC_BASE_ADDR.getRamAddr());
+        assertEquals(255, VmMemoryMapEnum.STATIC_FINAL_ADDR.getRamAddr());
         assertEquals(256, VmMemoryMapEnum.STACK_BASE_ADDR.getRamAddr());
-        assertEquals(2047, VmMemoryMapEnum.STACK_MAX_ADDR.getRamAddr());
+        assertEquals(2047, VmMemoryMapEnum.STACK_FINAL_ADDR.getRamAddr());
+        assertEquals(2048, VmMemoryMapEnum.LCL_BASE_ADDR.getRamAddr());
     }
 
 }
