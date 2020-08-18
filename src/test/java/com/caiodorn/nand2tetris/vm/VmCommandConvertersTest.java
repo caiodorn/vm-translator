@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ConvertersTest {
+public class VmCommandConvertersTest {
 
     @Test
     public void shouldReturnConverter_whenPushConstantType() {
-        assertNotNull(Converters.getConverter(VmCommandTypeEnum.PUSH_CONSTANT.getType()));
+        assertNotNull(VmCommandConverters.getForType(VmCommandTypeEnum.PUSH_CONSTANT));
     }
 
     @Test
     public void shouldReturnConverter_whenPushLocalType() {
-        assertNotNull(Converters.getConverter(VmCommandTypeEnum.PUSH_LOCAL.getType()));
+        assertNotNull(VmCommandConverters.getForType(VmCommandTypeEnum.PUSH_LOCAL));
     }
 
 }

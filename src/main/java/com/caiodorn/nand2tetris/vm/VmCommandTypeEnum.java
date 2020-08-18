@@ -18,7 +18,7 @@ public enum VmCommandTypeEnum {
         return type;
     }
 
-    public static VmCommandTypeEnum fromType(String type) {
+    public static VmCommandTypeEnum of(String type) {
         try {
             return Stream.of(VmCommandTypeEnum.values())
                     .filter((t -> type.equals(t.type)))

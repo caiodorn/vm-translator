@@ -10,7 +10,7 @@ public class BytecodeParser {
     public List<String> parse(List<String> vmCommands) {
         List<String> asmCommands = new ArrayList<>();
         inializePointers(asmCommands);
-        removeInvalidChars(vmCommands).forEach(command -> asmCommands.addAll(VmCommandWrapper.of(command).asAssemblyCommands()));
+        removeInvalidChars(vmCommands).forEach(command -> asmCommands.addAll(VmCommandWrapper.wrap(command).asAssemblyCommands()));
 
         return asmCommands;
     }

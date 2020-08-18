@@ -22,7 +22,7 @@ public class VmCommandWrapperTest {
         expectedOutput.add("@SP");
         expectedOutput.add("M=M+1");
 
-        assertEquals(expectedOutput, VmCommandWrapper.of(vmCommand).asAssemblyCommands());
+        assertEquals(expectedOutput, VmCommandWrapper.wrap(vmCommand).asAssemblyCommands());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class VmCommandWrapperTest {
         expectedOutput.add("A=M-1");
         expectedOutput.add("M=D"); // set D to *sp-1
 
-        assertEquals(expectedOutput, VmCommandWrapper.of(vmCommand).asAssemblyCommands());
+        assertEquals(expectedOutput, VmCommandWrapper.wrap(vmCommand).asAssemblyCommands());
     }
 
 }

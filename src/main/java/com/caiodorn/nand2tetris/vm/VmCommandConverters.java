@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public final class Converters {
+public final class VmCommandConverters {
 
     private static final String CMD_SEPARATOR = " ";
 
@@ -44,10 +44,10 @@ public final class Converters {
             VmCommandTypeEnum.PUSH_LOCAL, PUSH_LOCAL_CONVERTER
     );
 
-    private Converters() {}
+    private VmCommandConverters() {}
 
-    public static Function<String, List<String>> getConverter(String vmCommandType) {
-        return CONVERTERS.get(VmCommandTypeEnum.fromType(vmCommandType));
+    public static Function<String, List<String>> getForType(VmCommandTypeEnum commandType) {
+        return CONVERTERS.get(commandType);
     }
 
 }
