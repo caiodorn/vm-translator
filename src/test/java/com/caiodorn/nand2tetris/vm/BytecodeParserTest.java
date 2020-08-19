@@ -17,17 +17,108 @@ public class BytecodeParserTest {
 
     @Test
     public void shouldInitializePointers() {
-        List<String> output = new ArrayList<>();
-        output.add("@256");
-        output.add("D=A");
-        output.add("@SP");
-        output.add("M=D");
-        output.add("@2048");
-        output.add("D=A");
-        output.add("@LCL");
-        output.add("M=D");
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("@256");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@SP");
+        expectedOutput.add("M=D");
+        expectedOutput.add("@2048");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@LCL");
+        expectedOutput.add("M=D");
 
-        assertEquals(output, new BytecodeParser().parse(new ArrayList<>()));
+        assertEquals(expectedOutput, new BytecodeParser().parse(new ArrayList<>()));
+    }
+
+    @Test
+    public void shouldGenerateExpectedAssemblyCode_whenPushConstant() {
+        List<String> vmCommand = new ArrayList<>();
+        vmCommand.add("push constant 8");
+
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("@256");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@SP");
+        expectedOutput.add("M=D");
+        expectedOutput.add("@2048");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@LCL");
+        expectedOutput.add("M=D");
+
+        expectedOutput.add("@8");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@SP");
+        expectedOutput.add("A=M");
+        expectedOutput.add("M=D");
+        expectedOutput.add("@SP");
+        expectedOutput.add("M=M+1");
+
+        assertEquals(expectedOutput, new BytecodeParser().parse(vmCommand));
+    }
+
+    @Test
+    public void shouldGenerateExpectedAssemblyCode_whenPushLocal() {
+        List<String> vmCommand = new ArrayList<>();
+        vmCommand.add("push local 8");
+
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("@256");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@SP");
+        expectedOutput.add("M=D");
+        expectedOutput.add("@2048");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@LCL");
+        expectedOutput.add("M=D");
+
+        expectedOutput.add("@8"); // assign *lcl[8] to D register
+        expectedOutput.add("D=A");
+        expectedOutput.add("@LCL");
+        expectedOutput.add("A=D+M");
+        expectedOutput.add("D=M");
+
+        expectedOutput.add("@LCL"); // decrement lcl
+        expectedOutput.add("M=M-1");
+
+        expectedOutput.add("@SP"); // increment sp
+        expectedOutput.add("M=M+1");
+        expectedOutput.add("A=M-1");
+        expectedOutput.add("M=D"); // set D to *sp-1
+
+        assertEquals(expectedOutput, new BytecodeParser().parse(vmCommand));
+    }
+
+    @Test
+    public void shouldGenerateExpectedAssemblyCode_whenPopLocal() {
+        List<String> vmCommand = new ArrayList<>();
+        vmCommand.add("pop local 8");
+
+        List<String> expectedOutput = new ArrayList<>();
+        expectedOutput.add("@256");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@SP");
+        expectedOutput.add("M=D");
+        expectedOutput.add("@2048");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@LCL");
+        expectedOutput.add("M=D");
+
+        expectedOutput.add("@8");
+        expectedOutput.add("D=A");
+        expectedOutput.add("@LCL");
+        expectedOutput.add("D=D+M"); // calculate LCL+8
+        expectedOutput.add("@R13");
+        expectedOutput.add("M=D"); //buffer target address
+
+        expectedOutput.add("@SP"); // pop value from stack and decrement sp
+        expectedOutput.add("AM=M-1");
+        expectedOutput.add("D=M");
+
+        expectedOutput.add("@R13");
+        expectedOutput.add("A=M");
+        expectedOutput.add("M=D"); // stores in RAM[LCL+8]
+
+        assertEquals(expectedOutput, new BytecodeParser().parse(vmCommand));
     }
 
 }

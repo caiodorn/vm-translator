@@ -10,7 +10,7 @@ public class BytecodeParser {
     public List<String> parse(List<String> vmCommands) {
         List<String> asmCommands = new ArrayList<>();
         inializePointers(asmCommands);
-        removeInvalidChars(vmCommands).forEach(command -> asmCommands.addAll(VmCommandWrapper.wrap(command).asAssemblyCommands()));
+        removeInvalidChars(vmCommands).forEach(command -> asmCommands.addAll(toAssembly(command)));
 
         return asmCommands;
     }
@@ -20,7 +20,7 @@ public class BytecodeParser {
      * @param rawLines
      * @return
      */
-    private static List<String> removeInvalidChars(List<String> rawLines) {
+    private List<String> removeInvalidChars(List<String> rawLines) {
         List<String> cleanedUpLines = new ArrayList<>();
         String commentDelimiter = "//";
 
@@ -33,7 +33,7 @@ public class BytecodeParser {
         return cleanedUpLines;
     }
 
-    private static void inializePointers(List<String> asmCommands) {
+    private void inializePointers(List<String> asmCommands) {
         asmCommands.add("@256");
         asmCommands.add("D=A");
         asmCommands.add("@SP");
@@ -42,6 +42,24 @@ public class BytecodeParser {
         asmCommands.add("D=A");
         asmCommands.add("@LCL");
         asmCommands.add("M=D");
+    }
+
+    private List<String> toAssembly(String vmCommand) {
+        List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.addAll(ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand));
+
+        return assemblyCommands;
+    }
+
+    private VmCommandTypeEnum getCommandType(String vmCommand) {
+        return VmCommandTypeEnum.of(removeValueIfAny(vmCommand));
+    }
+
+    private String removeValueIfAny(String vmCommand) {
+        int valueSeparatorIndex = vmCommand.lastIndexOf(" ");
+
+        return valueSeparatorIndex == -1 ?
+                vmCommand : vmCommand.substring(0, valueSeparatorIndex);
     }
 
 }
