@@ -34,7 +34,7 @@ public class BytecodeParser {
     }
 
     private static void inializePointers(List<String> asmCommands) {
-        asmCommands.add("@255");
+        asmCommands.add("@256");
         asmCommands.add("D=A");
         asmCommands.add("@SP");
         asmCommands.add("M=D");

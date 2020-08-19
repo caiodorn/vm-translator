@@ -18,7 +18,7 @@ public class BytecodeParserTest {
     @Test
     public void shouldInitializePointers() {
         List<String> output = new ArrayList<>();
-        output.add("@255");
+        output.add("@256");
         output.add("D=A");
         output.add("@SP");
         output.add("M=D");

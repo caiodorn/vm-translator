@@ -6,7 +6,8 @@ import java.util.stream.Stream;
 public enum VmCommandTypeEnum {
 
     PUSH_CONSTANT("push constant"),
-    PUSH_LOCAL("push local");
+    PUSH_LOCAL("push local"),
+    POP_LOCAL("pop local");
 
     private final String type;
 

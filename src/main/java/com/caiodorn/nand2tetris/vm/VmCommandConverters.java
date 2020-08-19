@@ -39,9 +39,28 @@ public final class VmCommandConverters {
         return assemblyCommands;
     };
 
+    private static final Function<String, List<String>> POP_LOCAL_CONVERTER = (s) -> {
+        List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@LCL");
+        assemblyCommands.add("D=D+M");
+        assemblyCommands.add("@R13");
+        assemblyCommands.add("M=D");
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("AM=M-1");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@R13");
+        assemblyCommands.add("A=M");
+        assemblyCommands.add("M=D");
+
+        return assemblyCommands;
+    };
+
     private static final Map<VmCommandTypeEnum, Function<String, List<String>>> CONVERTERS = Map.of(
             VmCommandTypeEnum.PUSH_CONSTANT, PUSH_CONSTANT_CONVERTER,
-            VmCommandTypeEnum.PUSH_LOCAL, PUSH_LOCAL_CONVERTER
+            VmCommandTypeEnum.PUSH_LOCAL, PUSH_LOCAL_CONVERTER,
+            VmCommandTypeEnum.POP_LOCAL, POP_LOCAL_CONVERTER
     );
 
     private VmCommandConverters() {}
