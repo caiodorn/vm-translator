@@ -48,10 +48,8 @@ public class BytecodeParserTest {
         expectedOutput.add("@8");
         expectedOutput.add("D=A");
         expectedOutput.add("@SP");
-        expectedOutput.add("A=M");
-        expectedOutput.add("M=D");
-        expectedOutput.add("@SP");
-        expectedOutput.add("M=M+1");
+        expectedOutput.add("AM=M+1");
+        expectedOutput.add("M-1=D");
 
         assertEquals(expectedOutput, new BytecodeParser().parse(vmCommand));
     }
@@ -81,9 +79,8 @@ public class BytecodeParserTest {
         expectedOutput.add("M=M-1");
 
         expectedOutput.add("@SP"); // increment sp
-        expectedOutput.add("M=M+1");
-        expectedOutput.add("A=M-1");
-        expectedOutput.add("M=D"); // set D to *sp-1
+        expectedOutput.add("AM=M+1");
+        expectedOutput.add("M-1=D");
 
         assertEquals(expectedOutput, new BytecodeParser().parse(vmCommand));
     }
