@@ -7,7 +7,16 @@ public enum VmCommandTypeEnum {
 
     PUSH_CONSTANT("push constant"),
     PUSH_LOCAL("push local"),
-    POP_LOCAL("pop local");
+    POP_LOCAL("pop local"),
+    ADD("add"),
+    SUB("sub"),
+    NEG("neg"),
+    EQ("eq"),
+    GT("gt"),
+    LT("lt"),
+    AND("and"),
+    OR("or"),
+    NOT("not");
 
     private final String type;
 
