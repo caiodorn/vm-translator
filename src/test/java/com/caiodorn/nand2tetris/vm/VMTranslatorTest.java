@@ -7,11 +7,11 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class VmTranslatorAppTest {
+public class VMTranslatorTest {
 
     @Test
-    public void shouldGenerateOutputFile() {
-        VmTranslatorApp.main(new String[] {"src/test/resources/StackTest.vm"});
+    void shouldGenerateOutputFile() {
+        VMTranslator.main(new String[] {"src/test/resources/StackTest.vm"});
 
         assertTrue(Files.exists(Paths.get("StackTest.asm")));
     }

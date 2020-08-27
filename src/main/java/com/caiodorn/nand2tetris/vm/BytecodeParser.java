@@ -53,14 +53,13 @@ public class BytecodeParser {
         asmCommands.add("AM=M-1");
         asmCommands.add("D=M");
         asmCommands.add("A=A-1");
-        asmCommands.add("D=D-M");
-        asmCommands.add("M=0");
+        asmCommands.add("D=M-D");
+        asmCommands.add("M=-1");
         asmCommands.add("@END_EQ");
         asmCommands.add("D;JEQ");
         asmCommands.add("@SP");
         asmCommands.add("A=M-1");
-        asmCommands.add("A=A-1");
-        asmCommands.add("M=-1");
+        asmCommands.add("M=0");
         asmCommands.add("(END_EQ)");
         asmCommands.add("@R14");            // returns to origin - addr stored @R14
         asmCommands.add("A=M");
@@ -72,14 +71,13 @@ public class BytecodeParser {
         asmCommands.add("AM=M-1");
         asmCommands.add("D=M");
         asmCommands.add("A=A-1");
-        asmCommands.add("D=D-M");
-        asmCommands.add("M=0");
+        asmCommands.add("D=M-D");
+        asmCommands.add("M=-1");
         asmCommands.add("@END_GT");
         asmCommands.add("D;JGT");
         asmCommands.add("@SP");
         asmCommands.add("A=M-1");
-        asmCommands.add("A=A-1");
-        asmCommands.add("M=-1");
+        asmCommands.add("M=0");
         asmCommands.add("(END_GT)");
         asmCommands.add("@R14");            // returns to origin - addr stored @R14
         asmCommands.add("A=M");
@@ -91,14 +89,13 @@ public class BytecodeParser {
         asmCommands.add("AM=M-1");
         asmCommands.add("D=M");
         asmCommands.add("A=A-1");
-        asmCommands.add("D=D-M");
-        asmCommands.add("M=0");
+        asmCommands.add("D=M-D");
+        asmCommands.add("M=-1");
         asmCommands.add("@END_LT");
         asmCommands.add("D;JLT");
         asmCommands.add("@SP");
         asmCommands.add("A=M-1");
-        asmCommands.add("A=A-1");
-        asmCommands.add("M=-1");
+        asmCommands.add("M=0");
         asmCommands.add("(END_LT)");
         asmCommands.add("@R14");            // returns to origin - addr stored @R14
         asmCommands.add("A=M");

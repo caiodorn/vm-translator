@@ -1,14 +1,11 @@
 package com.caiodorn.nand2tetris.vm;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-@Slf4j
-public class VmTranslatorApp {
+public class VMTranslator {
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -28,7 +25,6 @@ public class VmTranslatorApp {
             List<String> assemblyCode = new BytecodeParser().parse(rawLines);
             Files.write(Paths.get(createOutputFileName(fullyQualifiedInputFileName)), assemblyCode);
         } catch (IOException e) {
-            log.error("An error occurred!", e);
             throw new RuntimeException(e);
         }
     }
