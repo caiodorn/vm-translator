@@ -9,9 +9,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BytecodeParserTest {
 
+    private final String filename = "filename";
+
     @Test
     void shouldThrowNullPointerException_whenNullArgument() {
-        assertThrows(NullPointerException.class, () -> new BytecodeParser().parse(null));
+        assertThrows(NullPointerException.class, () -> new BytecodeParser(filename).parse(null));
     }
 
     private List<String> initialize() {

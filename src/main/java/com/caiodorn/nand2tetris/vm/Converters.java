@@ -153,12 +153,20 @@ public final class Converters {
 
     public static final Function<String, List<String>> POP_POINTER = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        final int thisOrThat = Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.addAll(POP);
+        assemblyCommands.add(thisOrThat == 0 ? "@THIS" : "@THAT");
+        assemblyCommands.add("M=D");
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> PUSH_POINTER = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        final int thisOrThat = Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add(thisOrThat == 0 ? "@THIS" : "@THAT");
+        assemblyCommands.add("D=M");
+        assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
     };
@@ -166,24 +174,38 @@ public final class Converters {
 
     public static final Function<String, List<String>> POP_STATIC = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.addAll(POP);
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[3] + "." + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("M=D");
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> PUSH_STATIC = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[3] + "." + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("D=M");
+        assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> POP_TEMP = (s) -> {
+        final int addr = 5 + Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.addAll(POP);
+        assemblyCommands.add("@" + addr);
+        assemblyCommands.add("M=D");
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> PUSH_TEMP = (s) -> {
+        final int addr = 5 + Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + addr);
+        assemblyCommands.add("D=M");
+        assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
     };

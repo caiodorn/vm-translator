@@ -7,6 +7,12 @@ import java.util.stream.Collectors;
 
 public class BytecodeParser {
 
+    private final String FILENAME;
+
+    public BytecodeParser(String filename) {
+        this.FILENAME = filename;
+    }
+
     public List<String> parse(List<String> vmCommands) {
         List<String> asmCommands = new ArrayList<>();
         initialize(asmCommands);
@@ -112,7 +118,7 @@ public class BytecodeParser {
 
     private List<String> toAssembly(String vmCommand) {
         List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand));
+        assemblyCommands.addAll(ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand + " " + FILENAME));
 
         return assemblyCommands;
     }

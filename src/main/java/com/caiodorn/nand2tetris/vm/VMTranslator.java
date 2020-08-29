@@ -22,8 +22,9 @@ public class VMTranslator {
                 throw new RuntimeException("File cannot be empty!");
             }
 
-            List<String> assemblyCode = new BytecodeParser().parse(rawLines);
-            Files.write(Paths.get(createOutputFileName(fullyQualifiedInputFileName)), assemblyCode);
+            String currentFilename = createOutputFileName(fullyQualifiedInputFileName);
+            List<String> assemblyCode = new BytecodeParser(currentFilename).parse(rawLines);
+            Files.write(Paths.get(currentFilename), assemblyCode);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
