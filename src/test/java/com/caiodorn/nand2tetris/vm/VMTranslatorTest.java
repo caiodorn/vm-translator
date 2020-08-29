@@ -13,7 +13,7 @@ public class VMTranslatorTest {
     void shouldGenerateOutputFile() {
         VMTranslator.main(new String[] {"src/test/resources/StackTest.vm"});
 
-        assertTrue(Files.exists(Paths.get("StackTest.asm")));
+        assertTrue(Files.exists(Paths.get("src/test/resources/StackTest.asm")));
     }
 
 }

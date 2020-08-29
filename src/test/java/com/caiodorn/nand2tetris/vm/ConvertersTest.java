@@ -30,8 +30,6 @@ public class ConvertersTest {
         expected.add("@LCL");
         expected.add("A=D+M");
         expected.add("D=M");
-        expected.add("@LCL");
-        expected.add("M=M-1");
         expected.add("@SP");
         expected.add("AM=M+1");
         expected.add("A=A-1");
@@ -86,8 +84,6 @@ public class ConvertersTest {
         expected.add("@ARG");
         expected.add("A=D+M");
         expected.add("D=M");
-        expected.add("@ARG");
-        expected.add("M=M-1");
         expected.add("@SP");
         expected.add("AM=M+1");
         expected.add("A=A-1");
@@ -123,8 +119,6 @@ public class ConvertersTest {
         expected.add("@THIS");
         expected.add("A=D+M");
         expected.add("D=M");
-        expected.add("@THIS");
-        expected.add("M=M-1");
         expected.add("@SP");
         expected.add("AM=M+1");
         expected.add("A=A-1");
@@ -160,8 +154,6 @@ public class ConvertersTest {
         expected.add("@THAT");
         expected.add("A=D+M");
         expected.add("D=M");
-        expected.add("@THAT");
-        expected.add("M=M-1");
         expected.add("@SP");
         expected.add("AM=M+1");
         expected.add("A=A-1");
