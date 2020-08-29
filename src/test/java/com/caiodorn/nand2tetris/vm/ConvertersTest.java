@@ -62,6 +62,18 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenPopArgument() {
         List<String> expected = new ArrayList<>();
+        expected.add("@10");
+        expected.add("D=A");
+        expected.add("@ARG");
+        expected.add("D=D+M");
+        expected.add("@R13");
+        expected.add("M=D");
+        expected.add("@SP");
+        expected.add("AM=M-1");
+        expected.add("D=M");
+        expected.add("@R13");
+        expected.add("A=M");
+        expected.add("M=D");
 
         assertIterableEquals(expected, Converters.POP_ARGUMENT.apply("pop argument 10"));
     }
@@ -69,6 +81,17 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenPushArgument() {
         List<String> expected = new ArrayList<>();
+        expected.add("@10");
+        expected.add("D=A");
+        expected.add("@ARG");
+        expected.add("A=D+M");
+        expected.add("D=M");
+        expected.add("@ARG");
+        expected.add("M=M-1");
+        expected.add("@SP");
+        expected.add("AM=M+1");
+        expected.add("A=A-1");
+        expected.add("M=D");
 
         assertIterableEquals(expected, Converters.PUSH_ARGUMENT.apply("push argument 10"));
     }
@@ -76,6 +99,18 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenPopThis() {
         List<String> expected = new ArrayList<>();
+        expected.add("@10");
+        expected.add("D=A");
+        expected.add("@THIS");
+        expected.add("D=D+M");
+        expected.add("@R13");
+        expected.add("M=D");
+        expected.add("@SP");
+        expected.add("AM=M-1");
+        expected.add("D=M");
+        expected.add("@R13");
+        expected.add("A=M");
+        expected.add("M=D");
 
         assertIterableEquals(expected, Converters.POP_THIS.apply("pop this 10"));
     }
@@ -83,6 +118,17 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenPushThis() {
         List<String> expected = new ArrayList<>();
+        expected.add("@10");
+        expected.add("D=A");
+        expected.add("@THIS");
+        expected.add("A=D+M");
+        expected.add("D=M");
+        expected.add("@THIS");
+        expected.add("M=M-1");
+        expected.add("@SP");
+        expected.add("AM=M+1");
+        expected.add("A=A-1");
+        expected.add("M=D");
 
         assertIterableEquals(expected, Converters.PUSH_THIS.apply("push this 10"));
     }
@@ -90,6 +136,18 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenPopThat() {
         List<String> expected = new ArrayList<>();
+        expected.add("@10");
+        expected.add("D=A");
+        expected.add("@THAT");
+        expected.add("D=D+M");
+        expected.add("@R13");
+        expected.add("M=D");
+        expected.add("@SP");
+        expected.add("AM=M-1");
+        expected.add("D=M");
+        expected.add("@R13");
+        expected.add("A=M");
+        expected.add("M=D");
 
         assertIterableEquals(expected, Converters.POP_THAT.apply("pop that 10"));
     }
@@ -97,6 +155,17 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenPushThat() {
         List<String> expected = new ArrayList<>();
+        expected.add("@10");
+        expected.add("D=A");
+        expected.add("@THAT");
+        expected.add("A=D+M");
+        expected.add("D=M");
+        expected.add("@THAT");
+        expected.add("M=M-1");
+        expected.add("@SP");
+        expected.add("AM=M+1");
+        expected.add("A=A-1");
+        expected.add("M=D");
 
         assertIterableEquals(expected, Converters.PUSH_THAT.apply("push that 10"));
     }

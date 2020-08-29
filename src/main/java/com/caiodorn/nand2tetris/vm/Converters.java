@@ -63,36 +63,90 @@ public final class Converters {
 
     public static final Function<String, List<String>> POP_ARGUMENT = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@ARG");
+        assemblyCommands.add("D=D+M");
+        assemblyCommands.add("@R13");
+        assemblyCommands.add("M=D");
+        assemblyCommands.addAll(POP);
+        assemblyCommands.add("@R13");
+        assemblyCommands.add("A=M");
+        assemblyCommands.add("M=D");
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> PUSH_ARGUMENT = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@ARG");
+        assemblyCommands.add("A=D+M");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@ARG");
+        assemblyCommands.add("M=M-1");
+        assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> POP_THIS = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@THIS");
+        assemblyCommands.add("D=D+M");
+        assemblyCommands.add("@R13");
+        assemblyCommands.add("M=D");
+        assemblyCommands.addAll(POP);
+        assemblyCommands.add("@R13");
+        assemblyCommands.add("A=M");
+        assemblyCommands.add("M=D");
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> PUSH_THIS = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@THIS");
+        assemblyCommands.add("A=D+M");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@THIS");
+        assemblyCommands.add("M=M-1");
+        assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> POP_THAT = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@THAT");
+        assemblyCommands.add("D=D+M");
+        assemblyCommands.add("@R13");
+        assemblyCommands.add("M=D");
+        assemblyCommands.addAll(POP);
+        assemblyCommands.add("@R13");
+        assemblyCommands.add("A=M");
+        assemblyCommands.add("M=D");
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> PUSH_THAT = (s) -> {
         List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@THAT");
+        assemblyCommands.add("A=D+M");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@THAT");
+        assemblyCommands.add("M=M-1");
+        assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
     };
