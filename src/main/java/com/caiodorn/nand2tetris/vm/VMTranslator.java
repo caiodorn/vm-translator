@@ -38,9 +38,9 @@ public class VMTranslator {
     }
 
     private static String extractFileName(String fullyQualifiedFileName) {
-        int fileNamePosition = fullyQualifiedFileName.split("/").length - 1;
-        String fileName = fullyQualifiedFileName.split("/")[fileNamePosition];
-        String outputFileName = fileName.split("\\.")[0];
+        final int fileNamePosition = fullyQualifiedFileName.split("/").length - 1;
+        final String fileName = fullyQualifiedFileName.split("/")[fileNamePosition];
+        final String outputFileName = fileName.split("\\.")[0];
 
         return outputFileName;
     }
