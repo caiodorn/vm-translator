@@ -14,7 +14,7 @@ public class BytecodeParser {
     }
 
     public List<String> parse(List<String> vmCommands) {
-        List<String> asmCommands = new ArrayList<>();
+        final List<String> asmCommands = new ArrayList<>();
         removeInvalidChars(vmCommands).forEach(command -> asmCommands.addAll(toAssembly(command.toLowerCase())));
 
         return asmCommands;
@@ -26,10 +26,10 @@ public class BytecodeParser {
      * @return
      */
     private List<String> removeInvalidChars(List<String> rawLines) {
-        List<String> cleanedUpLines = new ArrayList<>();
-        String commentDelimiter = "//";
+        final List<String> cleanedUpLines = new ArrayList<>();
+        final String commentDelimiter = "//";
 
-        List<String> nonEmptyLines = rawLines.stream()
+        final List<String> nonEmptyLines = rawLines.stream()
                 .filter(line -> !line.trim().isEmpty() && !line.trim().startsWith(commentDelimiter))
                 .collect(Collectors.toList());
 
@@ -39,7 +39,7 @@ public class BytecodeParser {
     }
 
     private List<String> toAssembly(String vmCommand) {
-        List<String> assemblyCommands = new ArrayList<>();
+        final List<String> assemblyCommands = new ArrayList<>();
         assemblyCommands.addAll(ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand + " " + FILENAME));
 
         return assemblyCommands;
