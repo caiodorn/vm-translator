@@ -12,4 +12,4 @@ Executable files are located under /build/distributions/vm-translator/bin (will 
     * $ vm-translator.bat sourcefile.vm
     
 An output file with the same name (and .asm extension) as the source file will be generated within the folder where
-vm-translator executable is located.
+the source file is located.
