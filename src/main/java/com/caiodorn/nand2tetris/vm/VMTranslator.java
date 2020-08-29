@@ -24,14 +24,14 @@ public class VMTranslator {
             }
 
             final String currentFilename = extractFileName(fullyQualifiedInputFileName);
-            final String outputFileName = fullyQualifiedInputFileName.split("\\.")[0];
+            final String fullyQualifiedOutputFileName = fullyQualifiedInputFileName.split("\\.")[0];
 
             final List<String> assemblyCode = new ArrayList<>();
             AsmDefaults.initialize(assemblyCode);
             assemblyCode.addAll(new BytecodeParser(currentFilename).parse(rawLines));
             AsmDefaults.finalize(assemblyCode);
 
-            Files.write(Paths.get(outputFileName + ".asm"), assemblyCode);
+            Files.write(Paths.get(fullyQualifiedOutputFileName + ".asm"), assemblyCode);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
