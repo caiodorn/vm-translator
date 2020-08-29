@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 public class AsmDefaultsTest {
 
     @Test
-    void shouldAddDefaultInitTemplateCommands_whenInitialize() {
-        List<String> expected = getInitializeTemplateCommands();
+    void shouldAddDefaultInitDefaultCommands_whenInitialize() {
+        List<String> expected = getInitializeDefaultCommands();
         List<String> actual = new ArrayList<>();
 
         AsmDefaults.initialize(actual);
@@ -20,8 +20,8 @@ public class AsmDefaultsTest {
     }
 
     @Test
-    void shouldAddDefaultInitTemplateCommands_whenFinalize() {
-        List<String> expected = getFinalizeTemplateCommands();
+    void shouldAddDefaultInitDefaultCommands_whenFinalize() {
+        List<String> expected = getFinalizeDefaultCommands();
         List<String> actual = new ArrayList<>();
 
         AsmDefaults.finalize(actual);
@@ -29,7 +29,7 @@ public class AsmDefaultsTest {
         assertArrayEquals(expected.toArray(), actual.toArray());
     }
 
-    private List<String> getInitializeTemplateCommands() {
+    private List<String> getInitializeDefaultCommands() {
         List<String> asmCommands = new ArrayList<>();
         //init pointers
         asmCommands.add("@256");
@@ -114,7 +114,7 @@ public class AsmDefaultsTest {
         return asmCommands;
     }
 
-    private List<String> getFinalizeTemplateCommands() {
+    private List<String> getFinalizeDefaultCommands() {
         List<String> asmCommands = new ArrayList<>();
         asmCommands.add("(END)");
         asmCommands.add("@END");
