@@ -3,6 +3,7 @@ package com.caiodorn.nand2tetris.vm;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class VMTranslator {
@@ -23,7 +24,12 @@ public class VMTranslator {
             }
 
             String currentFilename = createOutputFileName(fullyQualifiedInputFileName);
-            List<String> assemblyCode = new BytecodeParser(currentFilename).parse(rawLines);
+
+            List<String> assemblyCode = new ArrayList<>();
+            AsmDefaults.initialize(assemblyCode);
+            assemblyCode.addAll(new BytecodeParser(currentFilename).parse(rawLines));
+            AsmDefaults.finalize(assemblyCode);
+
             Files.write(Paths.get(currentFilename), assemblyCode);
         } catch (IOException e) {
             throw new RuntimeException(e);

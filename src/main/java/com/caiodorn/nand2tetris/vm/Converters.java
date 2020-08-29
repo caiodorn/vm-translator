@@ -7,6 +7,7 @@ import java.util.function.Function;
 public final class Converters {
 
     private static final String CMD_SEPARATOR = " ";
+    private static final int TEMP_BASE_ADDR = 5;
     private static int counter = 0; // TODO think of a better way of managing this
 
     private static final List<String> PUSH = List.of(
@@ -38,8 +39,6 @@ public final class Converters {
         assemblyCommands.add("@LCL");
         assemblyCommands.add("A=D+M");
         assemblyCommands.add("D=M");
-        assemblyCommands.add("@LCL");
-        assemblyCommands.add("M=M-1");
         assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
@@ -84,8 +83,6 @@ public final class Converters {
         assemblyCommands.add("@ARG");
         assemblyCommands.add("A=D+M");
         assemblyCommands.add("D=M");
-        assemblyCommands.add("@ARG");
-        assemblyCommands.add("M=M-1");
         assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
@@ -114,8 +111,6 @@ public final class Converters {
         assemblyCommands.add("@THIS");
         assemblyCommands.add("A=D+M");
         assemblyCommands.add("D=M");
-        assemblyCommands.add("@THIS");
-        assemblyCommands.add("M=M-1");
         assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
@@ -144,8 +139,6 @@ public final class Converters {
         assemblyCommands.add("@THAT");
         assemblyCommands.add("A=D+M");
         assemblyCommands.add("D=M");
-        assemblyCommands.add("@THAT");
-        assemblyCommands.add("M=M-1");
         assemblyCommands.addAll(PUSH);
 
         return assemblyCommands;
@@ -191,7 +184,7 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> POP_TEMP = (s) -> {
-        final int addr = 5 + Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
+        final int addr = TEMP_BASE_ADDR + Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
         List<String> assemblyCommands = new ArrayList<>();
         assemblyCommands.addAll(POP);
         assemblyCommands.add("@" + addr);
@@ -201,7 +194,7 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> PUSH_TEMP = (s) -> {
-        final int addr = 5 + Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
+        final int addr = TEMP_BASE_ADDR + Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
         List<String> assemblyCommands = new ArrayList<>();
         assemblyCommands.add("@" + addr);
         assemblyCommands.add("D=M");

@@ -17,6 +17,18 @@ public class VmCommandTypeEnumTest {
         assertEquals(VmCommandTypeEnum.PUSH_CONSTANT, VmCommandTypeEnum.of(VmCommandTypeEnum.PUSH_CONSTANT.getType()));
         assertEquals(VmCommandTypeEnum.POP_LOCAL, VmCommandTypeEnum.of(VmCommandTypeEnum.POP_LOCAL.getType()));
         assertEquals(VmCommandTypeEnum.PUSH_LOCAL, VmCommandTypeEnum.of(VmCommandTypeEnum.PUSH_LOCAL.getType()));
+        assertEquals(VmCommandTypeEnum.POP_THIS, VmCommandTypeEnum.of(VmCommandTypeEnum.POP_THIS.getType()));
+        assertEquals(VmCommandTypeEnum.PUSH_THIS, VmCommandTypeEnum.of(VmCommandTypeEnum.PUSH_THIS.getType()));
+        assertEquals(VmCommandTypeEnum.POP_THAT, VmCommandTypeEnum.of(VmCommandTypeEnum.POP_THAT.getType()));
+        assertEquals(VmCommandTypeEnum.PUSH_THAT, VmCommandTypeEnum.of(VmCommandTypeEnum.PUSH_THAT.getType()));
+        assertEquals(VmCommandTypeEnum.POP_ARGUMENT, VmCommandTypeEnum.of(VmCommandTypeEnum.POP_ARGUMENT.getType()));
+        assertEquals(VmCommandTypeEnum.PUSH_ARGUMENT, VmCommandTypeEnum.of(VmCommandTypeEnum.PUSH_ARGUMENT.getType()));
+        assertEquals(VmCommandTypeEnum.POP_POINTER, VmCommandTypeEnum.of(VmCommandTypeEnum.POP_POINTER.getType()));
+        assertEquals(VmCommandTypeEnum.PUSH_POINTER, VmCommandTypeEnum.of(VmCommandTypeEnum.PUSH_POINTER.getType()));
+        assertEquals(VmCommandTypeEnum.POP_STATIC, VmCommandTypeEnum.of(VmCommandTypeEnum.POP_STATIC.getType()));
+        assertEquals(VmCommandTypeEnum.PUSH_STATIC, VmCommandTypeEnum.of(VmCommandTypeEnum.PUSH_STATIC.getType()));
+        assertEquals(VmCommandTypeEnum.POP_TEMP, VmCommandTypeEnum.of(VmCommandTypeEnum.POP_TEMP.getType()));
+        assertEquals(VmCommandTypeEnum.PUSH_TEMP, VmCommandTypeEnum.of(VmCommandTypeEnum.PUSH_TEMP.getType()));
         assertEquals(VmCommandTypeEnum.ADD, VmCommandTypeEnum.of(VmCommandTypeEnum.ADD.getType()));
         assertEquals(VmCommandTypeEnum.SUB, VmCommandTypeEnum.of(VmCommandTypeEnum.SUB.getType()));
         assertEquals(VmCommandTypeEnum.NEG, VmCommandTypeEnum.of(VmCommandTypeEnum.NEG.getType()));
