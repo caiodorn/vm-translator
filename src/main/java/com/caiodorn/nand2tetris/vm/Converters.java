@@ -8,7 +8,8 @@ public final class Converters {
 
     private static final String CMD_SEPARATOR = " ";
     private static final int TEMP_BASE_ADDR = 5;
-    private static int counter = 0; // TODO think of a better way of managing this
+
+    public  static int returnLabelCount = 0;
 
     private static final List<String> PUSH = List.of(
             "@SP",
@@ -232,39 +233,39 @@ public final class Converters {
 
     public static final Function<String, List<String>> EQ = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add(String.format("@RETURN_TO_%d", ++counter));
+        assemblyCommands.add(String.format("@RETURN_TO_%d", ++returnLabelCount));
         assemblyCommands.add("D=A");
         assemblyCommands.add("@R14");
         assemblyCommands.add("M=D");
         assemblyCommands.add("@BEGIN_EQ");
         assemblyCommands.add("0;JMP");
-        assemblyCommands.add(String.format("(RETURN_TO_%d)", counter));
+        assemblyCommands.add(String.format("(RETURN_TO_%d)", returnLabelCount));
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> GT = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add(String.format("@RETURN_TO_%d", ++counter));
+        assemblyCommands.add(String.format("@RETURN_TO_%d", ++returnLabelCount));
         assemblyCommands.add("D=A");
         assemblyCommands.add("@R14");
         assemblyCommands.add("M=D");
         assemblyCommands.add("@BEGIN_GT");
         assemblyCommands.add("0;JMP");
-        assemblyCommands.add(String.format("(RETURN_TO_%d)", counter));
+        assemblyCommands.add(String.format("(RETURN_TO_%d)", returnLabelCount));
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> LT = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add(String.format("@RETURN_TO_%d", ++counter));
+        assemblyCommands.add(String.format("@RETURN_TO_%d", ++returnLabelCount));
         assemblyCommands.add("D=A");
         assemblyCommands.add("@R14");
         assemblyCommands.add("M=D");
         assemblyCommands.add("@BEGIN_LT");
         assemblyCommands.add("0;JMP");
-        assemblyCommands.add(String.format("(RETURN_TO_%d)", counter));
+        assemblyCommands.add(String.format("(RETURN_TO_%d)", returnLabelCount));
 
         return assemblyCommands;
     };
@@ -295,9 +296,5 @@ public final class Converters {
 
         return assemblyCommands;
     };
-
-    public static int getCount() {
-        return counter;
-    }
 
 }

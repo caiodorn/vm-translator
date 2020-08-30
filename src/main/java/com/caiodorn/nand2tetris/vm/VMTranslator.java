@@ -17,18 +17,18 @@ public class VMTranslator {
         final String fullyQualifiedInputFileName = args[0];
 
         try {
-            final List<String> rawLines = Files.readAllLines(Paths.get(fullyQualifiedInputFileName));
+            List<String> rawLines = Files.readAllLines(Paths.get(fullyQualifiedInputFileName));
 
             if (rawLines.isEmpty()) {
                 throw new RuntimeException("File cannot be empty!");
             }
 
-            final String currentFilename = extractFileName(fullyQualifiedInputFileName);
+            final String currentFilename = getFileNameWithoutExtention(fullyQualifiedInputFileName);
             final String fullyQualifiedOutputFileName = fullyQualifiedInputFileName.split("\\.")[0];
-
             final List<String> assemblyCode = new ArrayList<>();
+
             AsmDefaults.initialize(assemblyCode);
-            assemblyCode.addAll(new BytecodeParser(currentFilename).parse(rawLines));
+            assemblyCode.addAll(new VMCommandParser(currentFilename).toAssembly(rawLines));
             AsmDefaults.finalize(assemblyCode);
 
             Files.write(Paths.get(fullyQualifiedOutputFileName + ".asm"), assemblyCode);
@@ -37,12 +37,11 @@ public class VMTranslator {
         }
     }
 
-    private static String extractFileName(String fullyQualifiedFileName) {
-        final int fileNamePosition = fullyQualifiedFileName.split("/").length - 1;
-        final String fileName = fullyQualifiedFileName.split("/")[fileNamePosition];
-        final String outputFileName = fileName.split("\\.")[0];
+    private static String getFileNameWithoutExtention(String fullyQualifiedFileName) {
+        int fileNamePosition = fullyQualifiedFileName.split("/").length - 1;
+        String fileName = fullyQualifiedFileName.split("/")[fileNamePosition];
 
-        return outputFileName;
+        return fileName.split("\\.")[0];
     }
 
 }

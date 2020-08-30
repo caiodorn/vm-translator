@@ -299,13 +299,13 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenEq() {
         List<String> expected = new ArrayList<>();
-        expected.add(String.format("@RETURN_TO_%d", Converters.getCount() + 1));
+        expected.add(String.format("@RETURN_TO_%d", Converters.returnLabelCount + 1));
         expected.add("D=A");
         expected.add("@R14");
         expected.add("M=D");
         expected.add("@BEGIN_EQ");
         expected.add("0;JMP");
-        expected.add(String.format("(RETURN_TO_%d)", Converters.getCount() + 1));
+        expected.add(String.format("(RETURN_TO_%d)", Converters.returnLabelCount + 1));
 
         assertIterableEquals(expected, Converters.EQ.apply("eq"));
     }
@@ -313,13 +313,13 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenGt() {
         List<String> expected = new ArrayList<>();
-        expected.add(String.format("@RETURN_TO_%d", Converters.getCount() + 1));
+        expected.add(String.format("@RETURN_TO_%d", Converters.returnLabelCount + 1));
         expected.add("D=A");
         expected.add("@R14");
         expected.add("M=D");
         expected.add("@BEGIN_GT");
         expected.add("0;JMP");
-        expected.add(String.format("(RETURN_TO_%d)", Converters.getCount() + 1));
+        expected.add(String.format("(RETURN_TO_%d)", Converters.returnLabelCount + 1));
 
         assertIterableEquals(expected, Converters.GT.apply("gt"));
     }
@@ -327,13 +327,13 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenLt() {
         List<String> expected = new ArrayList<>();
-        expected.add(String.format("@RETURN_TO_%d",  Converters.getCount() + 1));
+        expected.add(String.format("@RETURN_TO_%d",  Converters.returnLabelCount + 1));
         expected.add("D=A");
         expected.add("@R14");
         expected.add("M=D");
         expected.add("@BEGIN_LT");
         expected.add("0;JMP");
-        expected.add(String.format("(RETURN_TO_%d)",  Converters.getCount() + 1));
+        expected.add(String.format("(RETURN_TO_%d)",  Converters.returnLabelCount + 1));
 
         assertIterableEquals(expected, Converters.LT.apply("lt"));
     }

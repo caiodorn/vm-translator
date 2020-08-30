@@ -3,7 +3,7 @@ package com.caiodorn.nand2tetris.vm;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum VmCommandTypeEnum {
+public enum VMCommandTypeEnum {
 
     PUSH_CONSTANT("push constant"),
     PUSH_LOCAL("push local"),
@@ -32,7 +32,7 @@ public enum VmCommandTypeEnum {
 
     private final String type;
 
-    VmCommandTypeEnum(String type) {
+    VMCommandTypeEnum(String type) {
         this.type = type;
     }
 
@@ -40,9 +40,9 @@ public enum VmCommandTypeEnum {
         return type;
     }
 
-    public static VmCommandTypeEnum of(String type) {
+    public static VMCommandTypeEnum of(String type) {
         try {
-            return Stream.of(VmCommandTypeEnum.values())
+            return Stream.of(VMCommandTypeEnum.values())
                     .filter((t -> type.equals(t.type)))
                     .collect(Collectors.toList())
                     .get(0);

@@ -5,31 +5,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class BytecodeParser {
+public class VMCommandParser {
 
+    public static final String PART_SEPARATOR = " ";
     private final String FILENAME;
 
-    public BytecodeParser(String filename) {
+    public VMCommandParser(String filename) {
         this.FILENAME = filename;
     }
 
-    public List<String> parse(List<String> vmCommands) {
+    public List<String> toAssembly(List<String> vmCommands) {
         final List<String> asmCommands = new ArrayList<>();
-        removeInvalidChars(vmCommands).forEach(command -> asmCommands.addAll(toAssembly(command.toLowerCase())));
+        removeInvalidChars(vmCommands).forEach(
+                command -> asmCommands.addAll(convertCommand(command.toLowerCase()))
+        );
 
         return asmCommands;
     }
 
-    /**
-     * Removes comments and empty lines.
-     * @param rawLines
-     * @return
-     */
     private List<String> removeInvalidChars(List<String> rawLines) {
         final List<String> cleanedUpLines = new ArrayList<>();
-        final String commentDelimiter = "//";
+        String commentDelimiter = "//";
 
-        final List<String> nonEmptyLines = rawLines.stream()
+        List<String> nonEmptyLines = rawLines.stream()
                 .filter(line -> !line.trim().isEmpty() && !line.trim().startsWith(commentDelimiter))
                 .collect(Collectors.toList());
 
@@ -38,19 +36,21 @@ public class BytecodeParser {
         return cleanedUpLines;
     }
 
-    private List<String> toAssembly(String vmCommand) {
+    private List<String> convertCommand(String vmCommand) {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand + " " + FILENAME));
+        assemblyCommands.addAll(
+                ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand + PART_SEPARATOR + FILENAME)
+        );
 
         return assemblyCommands;
     }
 
-    private VmCommandTypeEnum getCommandType(String vmCommand) {
-        return VmCommandTypeEnum.of(removeValueIfAny(vmCommand));
+    private VMCommandTypeEnum getCommandType(String vmCommand) {
+        return VMCommandTypeEnum.of(removeValueIfAny(vmCommand));
     }
 
     private String removeValueIfAny(String vmCommand) {
-        int valueSeparatorIndex = vmCommand.lastIndexOf(" ");
+        int valueSeparatorIndex = vmCommand.lastIndexOf(PART_SEPARATOR);
 
         return valueSeparatorIndex == -1 ?
                 vmCommand : vmCommand.substring(0, valueSeparatorIndex);
