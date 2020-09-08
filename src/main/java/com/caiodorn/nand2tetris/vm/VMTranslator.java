@@ -61,9 +61,9 @@ public class VMTranslator {
     }
 
     private static String getFileNameWithoutExtension(String fullyQualifiedFileName) {
-        String fileName = fullyQualifiedFileName.substring(fullyQualifiedFileName.lastIndexOf("\\") + 1);
-
-        return fileName.split(FILE_EXT_DELIMITER)[0];
+        return fullyQualifiedFileName
+                .substring(fullyQualifiedFileName.lastIndexOf(DIR_DELIMITER) + 1)
+                .split(FILE_EXT_DELIMITER)[0];
     }
 
 }
