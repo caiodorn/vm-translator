@@ -76,4 +76,9 @@ class ConverterDictionaryTest {
         assertNotNull(ConverterDictionary.get(VMCommandTypeEnum.IF_GOTO));
     }
 
+    @Test
+    void shouldReturnConverter_whenLabelType() {
+        assertNotNull(ConverterDictionary.get(VMCommandTypeEnum.LABEL));
+    }
+
 }

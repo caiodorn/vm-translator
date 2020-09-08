@@ -38,6 +38,9 @@ public class VMCommandTypeEnumTest {
         assertEquals(VMCommandTypeEnum.AND, VMCommandTypeEnum.of(VMCommandTypeEnum.AND.getType()));
         assertEquals(VMCommandTypeEnum.OR, VMCommandTypeEnum.of(VMCommandTypeEnum.OR.getType()));
         assertEquals(VMCommandTypeEnum.NOT, VMCommandTypeEnum.of(VMCommandTypeEnum.NOT.getType()));
+        assertEquals(VMCommandTypeEnum.GOTO, VMCommandTypeEnum.of(VMCommandTypeEnum.GOTO.getType()));
+        assertEquals(VMCommandTypeEnum.IF_GOTO, VMCommandTypeEnum.of(VMCommandTypeEnum.IF_GOTO.getType()));
+        assertEquals(VMCommandTypeEnum.LABEL, VMCommandTypeEnum.of(VMCommandTypeEnum.LABEL.getType()));
     }
 
 }

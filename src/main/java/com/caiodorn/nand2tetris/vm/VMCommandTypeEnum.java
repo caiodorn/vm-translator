@@ -30,7 +30,10 @@ public enum VMCommandTypeEnum {
     OR("or"),
     NOT("not"),
     GOTO("goto"),
-    IF_GOTO("if-goto");
+    IF_GOTO("if-goto"),
+    LABEL("label"),
+    FUNCTION("function"),
+    RETURN("return");
 
     private final String type;
 

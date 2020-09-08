@@ -50,19 +50,18 @@ public class VMTranslator {
         });
     }
 
-    private static void processFile(String path, List<String> assemblyCode) throws IOException {
-        List<String> rawLines = Files.readAllLines(Paths.get(path));
+    private static void processFile(String fullyQualifiedFileName, List<String> assemblyCode) throws IOException {
+        List<String> rawLines = Files.readAllLines(Paths.get(fullyQualifiedFileName));
 
         if (rawLines.isEmpty()) {
             throw new RuntimeException("File cannot be empty!");
         }
 
-        assemblyCode.addAll(new VMCommandParser(getFileNameWithoutExtention(path)).toAssembly(rawLines));
+        assemblyCode.addAll(new VMCommandParser(getFileNameWithoutExtention(fullyQualifiedFileName)).toAssembly(rawLines));
     }
 
     private static String getFileNameWithoutExtention(String fullyQualifiedFileName) {
-        int fileNamePosition = fullyQualifiedFileName.split(DIR_DELIMITER).length - 1;
-        String fileName = fullyQualifiedFileName.split(DIR_DELIMITER)[fileNamePosition];
+        String fileName = fullyQualifiedFileName.substring(fullyQualifiedFileName.lastIndexOf("\\") + 1);
 
         return fileName.split(FILE_EXT_DELIMITER)[0];
     }

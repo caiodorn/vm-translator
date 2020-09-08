@@ -375,10 +375,10 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenGoto() {
         List<String> expected = new ArrayList<>();
-        expected.add("@f");
+        expected.add("@file.function$label");
         expected.add("0;JMP");
 
-        assertIterableEquals(expected, Converters.GOTO.apply("goto f"));
+        assertIterableEquals(expected, Converters.GOTO.apply("goto label" + " file" + " function"));
     }
 
     @Test
@@ -387,10 +387,18 @@ public class ConvertersTest {
         expected.add("@SP");
         expected.add("AM=M-1");
         expected.add("D=M");
-        expected.add("@f");
+        expected.add("@file.function$label");
         expected.add("D;JEQ");
 
-        assertIterableEquals(expected, Converters.IF_GOTO.apply("if-goto f"));
+        assertIterableEquals(expected, Converters.IF_GOTO.apply("if-goto label" + " file" + " function"));
+    }
+
+    @Test
+    void shouldReturnExpectedAssemblyCode_whenLabel() {
+        List<String> expected = new ArrayList<>();
+        expected.add("(file.function$MY_LABEL)");
+
+        assertIterableEquals(expected, Converters.LABEL.apply("label MY_LABEL" + " file" + " function"));
     }
 
 }

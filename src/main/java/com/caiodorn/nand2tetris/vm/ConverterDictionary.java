@@ -38,6 +38,7 @@ public final class ConverterDictionary {
         converters.put(VMCommandTypeEnum.NOT, Converters.NOT);
         converters.put(VMCommandTypeEnum.GOTO, Converters.GOTO);
         converters.put(VMCommandTypeEnum.IF_GOTO, Converters.IF_GOTO);
+        converters.put(VMCommandTypeEnum.LABEL, Converters.LABEL);
         CONVERTERS = Collections.unmodifiableMap(converters);
     }
 

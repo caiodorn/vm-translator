@@ -2,6 +2,7 @@ package com.caiodorn.nand2tetris.vm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 
@@ -9,9 +10,12 @@ public class VMCommandParser {
 
     private static final String PART_DELIMITER = " ";
     private final String FILENAME;
+    private final Stack<String> currentFunction;
 
     public VMCommandParser(String filename) {
         this.FILENAME = filename;
+        this.currentFunction = new Stack<>();
+        this.currentFunction.push("main");
     }
 
     public List<String> toAssembly(List<String> vmCommands) {
@@ -37,12 +41,19 @@ public class VMCommandParser {
     }
 
     private List<String> convertCommand(String vmCommand) {
-        final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(
-                ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand + PART_DELIMITER + FILENAME)
-        );
+        updateFunctionStack(vmCommand);
 
-        return assemblyCommands;
+        return new ArrayList<>(
+                ConverterDictionary.get(getCommandType(vmCommand)).apply(String.format("%s %s %s", vmCommand, FILENAME, currentFunction.peek()))
+        );
+    }
+
+    private void updateFunctionStack(String vmCommand) {
+        if (VMCommandTypeEnum.FUNCTION.equals(getCommandType(vmCommand))) {
+            currentFunction.push(vmCommand.split(PART_DELIMITER)[1]);
+        } else if (VMCommandTypeEnum.RETURN.equals(getCommandType(vmCommand))) {
+            currentFunction.pop();
+        }
     }
 
     private VMCommandTypeEnum getCommandType(String vmCommand) {

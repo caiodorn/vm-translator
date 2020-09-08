@@ -169,7 +169,7 @@ public final class Converters {
     public static final Function<String, List<String>> POP_STATIC = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
         assemblyCommands.addAll(POP);
-        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[3] + "." + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add(String.format("@%s.%s", s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[2]));
         assemblyCommands.add("M=D");
 
         return assemblyCommands;
@@ -177,7 +177,7 @@ public final class Converters {
 
     public static final Function<String, List<String>> PUSH_STATIC = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[3] + "." + s.split(CMD_SEPARATOR)[2]);
+        assemblyCommands.add(String.format("@%s.%s", s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[2]));
         assemblyCommands.add("D=M");
         assemblyCommands.addAll(PUSH);
 
@@ -299,7 +299,7 @@ public final class Converters {
 
     public static final Function<String, List<String>> GOTO = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[1]);
+        assemblyCommands.add(String.format("@%s.%s$%s", s.split(CMD_SEPARATOR)[2], s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
         assemblyCommands.add("0;JMP");
 
         return assemblyCommands;
@@ -308,8 +308,15 @@ public final class Converters {
     public static final Function<String, List<String>> IF_GOTO = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
         assemblyCommands.addAll(POP);
-        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[1]);
+        assemblyCommands.add(String.format("@%s.%s$%s", s.split(CMD_SEPARATOR)[2], s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
         assemblyCommands.add("D;JEQ");
+
+        return assemblyCommands;
+    };
+
+    public static final Function<String, List<String>> LABEL = (s) -> {
+        final List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add(String.format("(%s.%s$%s)", s.split(CMD_SEPARATOR)[2], s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
 
         return assemblyCommands;
     };
