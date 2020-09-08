@@ -57,10 +57,10 @@ public class VMTranslator {
             throw new RuntimeException("File cannot be empty!");
         }
 
-        assemblyCode.addAll(new VMCommandParser(getFileNameWithoutExtention(fullyQualifiedFileName)).toAssembly(rawLines));
+        assemblyCode.addAll(new VMCommandParser(getFileNameWithoutExtension(fullyQualifiedFileName)).toAssembly(rawLines));
     }
 
-    private static String getFileNameWithoutExtention(String fullyQualifiedFileName) {
+    private static String getFileNameWithoutExtension(String fullyQualifiedFileName) {
         String fileName = fullyQualifiedFileName.substring(fullyQualifiedFileName.lastIndexOf("\\") + 1);
 
         return fileName.split(FILE_EXT_DELIMITER)[0];
