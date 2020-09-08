@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VMTranslatorTest {
 
-    @AfterEach
+    //@AfterEach
     public void cleanUp() throws IOException {
         Path path = (Path.of("src/test/resources"));
 
@@ -36,9 +36,9 @@ public class VMTranslatorTest {
 
     @Test
     void shouldGenerateOutputFile_whenDirectory() {
-        VMTranslator.main(new String[] {"src/test/resources"});
+        VMTranslator.main(new String[] {"src/test/resources/ProgramFlow/BasicLoop"});
 
-        assertTrue(Files.exists(Paths.get("src/test/resources/resources.asm")));
+        assertTrue(Files.exists(Paths.get("src/test/resources/BasicLoop.asm")));
     }
 
 }

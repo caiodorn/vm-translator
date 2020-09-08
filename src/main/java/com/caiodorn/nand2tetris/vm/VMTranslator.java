@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class VMTranslator {
 
@@ -41,13 +42,15 @@ public class VMTranslator {
     }
 
     private static void processDirectory(String path, List<String> assemblyCode) throws IOException {
-        Files.newDirectoryStream(Path.of(path)).forEach(fullyQualifiedFileName -> {
-            try {
-                processFile(fullyQualifiedFileName.toString(), assemblyCode);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        Stream.of(Files.newDirectoryStream(Path.of(path)))
+                .filter(fullyQualifiedFileName -> fullyQualifiedFileName.toString().contains(".vm"))
+                .forEach(fullyQualifiedFileName -> {
+                    try {
+                        processFile(fullyQualifiedFileName.toString(), assemblyCode);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     private static void processFile(String fullyQualifiedFileName, List<String> assemblyCode) throws IOException {
