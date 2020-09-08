@@ -28,7 +28,9 @@ public enum VMCommandTypeEnum {
     LT("lt"),
     AND("and"),
     OR("or"),
-    NOT("not");
+    NOT("not"),
+    GOTO("goto"),
+    IF_GOTO("if-goto");
 
     private final String type;
 

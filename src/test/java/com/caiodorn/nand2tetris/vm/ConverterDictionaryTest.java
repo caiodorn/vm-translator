@@ -66,4 +66,14 @@ class ConverterDictionaryTest {
         assertNotNull(ConverterDictionary.get(VMCommandTypeEnum.NOT));
     }
 
+    @Test
+    void shouldReturnConverter_whenGotoType() {
+        assertNotNull(ConverterDictionary.get(VMCommandTypeEnum.GOTO));
+    }
+
+    @Test
+    void shouldReturnConverter_whenIfGotoType() {
+        assertNotNull(ConverterDictionary.get(VMCommandTypeEnum.IF_GOTO));
+    }
+
 }

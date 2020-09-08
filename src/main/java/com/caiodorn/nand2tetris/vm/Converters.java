@@ -297,4 +297,21 @@ public final class Converters {
         return assemblyCommands;
     };
 
+    public static final Function<String, List<String>> GOTO = (s) -> {
+        final List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[1]);
+        assemblyCommands.add("0;JMP");
+
+        return assemblyCommands;
+    };
+
+    public static final Function<String, List<String>> IF_GOTO = (s) -> {
+        final List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.addAll(POP);
+        assemblyCommands.add("@" + s.split(CMD_SEPARATOR)[1]);
+        assemblyCommands.add("D;JEQ");
+
+        return assemblyCommands;
+    };
+
 }

@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class VMCommandParser {
 
-    public static final String PART_SEPARATOR = " ";
+    private static final String PART_DELIMITER = " ";
     private final String FILENAME;
 
     public VMCommandParser(String filename) {
@@ -39,7 +39,7 @@ public class VMCommandParser {
     private List<String> convertCommand(String vmCommand) {
         final List<String> assemblyCommands = new ArrayList<>();
         assemblyCommands.addAll(
-                ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand + PART_SEPARATOR + FILENAME)
+                ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand + PART_DELIMITER + FILENAME)
         );
 
         return assemblyCommands;
@@ -50,7 +50,7 @@ public class VMCommandParser {
     }
 
     private String removeValueIfAny(String vmCommand) {
-        int valueSeparatorIndex = vmCommand.lastIndexOf(PART_SEPARATOR);
+        int valueSeparatorIndex = vmCommand.lastIndexOf(PART_DELIMITER);
 
         return valueSeparatorIndex == -1 ?
                 vmCommand : vmCommand.substring(0, valueSeparatorIndex);

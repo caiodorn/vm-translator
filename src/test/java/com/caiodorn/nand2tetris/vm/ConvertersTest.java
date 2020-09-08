@@ -372,4 +372,25 @@ public class ConvertersTest {
         assertIterableEquals(expected, Converters.NOT.apply("not"));
     }
 
+    @Test
+    void shouldReturnExpectedAssemblyCode_whenGoto() {
+        List<String> expected = new ArrayList<>();
+        expected.add("@f");
+        expected.add("0;JMP");
+
+        assertIterableEquals(expected, Converters.GOTO.apply("goto f"));
+    }
+
+    @Test
+    void shouldReturnExpectedAssemblyCode_whenIfGoto() {
+        List<String> expected = new ArrayList<>();
+        expected.add("@SP");
+        expected.add("AM=M-1");
+        expected.add("D=M");
+        expected.add("@f");
+        expected.add("D;JEQ");
+
+        assertIterableEquals(expected, Converters.IF_GOTO.apply("if-goto f"));
+    }
+
 }
