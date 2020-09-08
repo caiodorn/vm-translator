@@ -9,8 +9,8 @@ import java.util.List;
 
 public class VMTranslator {
 
-    private static final String DIR_DELIMITER = "/";
-    private static final String FILE_EXT_DELIMITER = "\\.";
+    private static final String DIR_SEPARATOR = "/";
+    private static final String FILE_EXT_SEPARATOR = "\\.";
     private static final String ASM_EXTENSION = ".asm";
 
     public static void main(String[] args) {
@@ -27,10 +27,10 @@ public class VMTranslator {
 
             if (Files.isDirectory(Path.of(path))) {
                 processDirectory(path, assemblyCode);
-                outputFileName = path + path.substring(path.lastIndexOf(DIR_DELIMITER)) + ASM_EXTENSION;
+                outputFileName = path + path.substring(path.lastIndexOf(DIR_SEPARATOR)) + ASM_EXTENSION;
             } else {
                 processFile(path, assemblyCode);
-                outputFileName = path.split(FILE_EXT_DELIMITER)[0] + ASM_EXTENSION;
+                outputFileName = path.split(FILE_EXT_SEPARATOR)[0] + ASM_EXTENSION;
             }
 
             AsmDefaults.finalize(assemblyCode);
@@ -62,8 +62,8 @@ public class VMTranslator {
 
     private static String getFileNameWithoutExtension(String fullyQualifiedFileName) {
         return fullyQualifiedFileName
-                .substring(fullyQualifiedFileName.lastIndexOf(DIR_DELIMITER) + 1)
-                .split(FILE_EXT_DELIMITER)[0];
+                .substring(fullyQualifiedFileName.lastIndexOf(DIR_SEPARATOR) + 1)
+                .split(FILE_EXT_SEPARATOR)[0];
     }
 
 }

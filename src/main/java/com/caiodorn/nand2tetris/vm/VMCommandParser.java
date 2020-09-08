@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class VMCommandParser {
 
-    private static final String PART_DELIMITER = " ";
+    private static final String PART_SEPARATOR = " ";
     private final String FILENAME;
     private final Stack<String> currentFunction;
 
@@ -29,13 +29,13 @@ public class VMCommandParser {
 
     private List<String> removeInvalidChars(List<String> rawLines) {
         final List<String> cleanedUpLines = new ArrayList<>();
-        String commentDelimiter = "//";
+        String commentSeparator = "//";
 
         List<String> nonEmptyLines = rawLines.stream()
-                .filter(line -> !line.trim().isEmpty() && !line.trim().startsWith(commentDelimiter))
+                .filter(line -> !line.trim().isEmpty() && !line.trim().startsWith(commentSeparator))
                 .collect(Collectors.toList());
 
-        nonEmptyLines.forEach(line -> cleanedUpLines.add(line.split(commentDelimiter)[0]));
+        nonEmptyLines.forEach(line -> cleanedUpLines.add(line.split(commentSeparator)[0]));
 
         return cleanedUpLines;
     }
@@ -43,14 +43,14 @@ public class VMCommandParser {
     private List<String> convertCommand(String vmCommand) {
         updateFunctionStack(vmCommand);
 
-        return new ArrayList<>(
-                ConverterDictionary.get(getCommandType(vmCommand)).apply(String.format("%s %s %s", vmCommand, FILENAME, currentFunction.peek()))
-        );
+        return ConverterDictionary
+                .get(getCommandType(vmCommand))
+                .apply(String.format("%s %s %s", vmCommand, FILENAME, currentFunction.peek()));
     }
 
     private void updateFunctionStack(String vmCommand) {
         if (VMCommandTypeEnum.FUNCTION.equals(getCommandType(vmCommand))) {
-            currentFunction.push(vmCommand.split(PART_DELIMITER)[1]);
+            currentFunction.push(vmCommand.split(PART_SEPARATOR)[1]);
         } else if (VMCommandTypeEnum.RETURN.equals(getCommandType(vmCommand))) {
             currentFunction.pop();
         }
@@ -61,7 +61,7 @@ public class VMCommandParser {
     }
 
     private String removeValueIfAny(String vmCommand) {
-        int valueSeparatorIndex = vmCommand.lastIndexOf(PART_DELIMITER);
+        int valueSeparatorIndex = vmCommand.lastIndexOf(PART_SEPARATOR);
 
         return valueSeparatorIndex == -1 ?
                 vmCommand : vmCommand.substring(0, valueSeparatorIndex);
