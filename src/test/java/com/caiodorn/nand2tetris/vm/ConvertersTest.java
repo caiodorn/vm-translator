@@ -378,7 +378,7 @@ public class ConvertersTest {
         expected.add("@file.function$label");
         expected.add("0;JMP");
 
-        assertIterableEquals(expected, Converters.GOTO.apply("goto label" + " file" + " function"));
+        assertIterableEquals(expected, Converters.GOTO.apply("goto label file function"));
     }
 
     @Test
@@ -390,7 +390,7 @@ public class ConvertersTest {
         expected.add("@file.function$label");
         expected.add("D;JNE");
 
-        assertIterableEquals(expected, Converters.IF_GOTO.apply("if-goto label" + " file" + " function"));
+        assertIterableEquals(expected, Converters.IF_GOTO.apply("if-goto label file function"));
     }
 
     @Test
@@ -398,7 +398,33 @@ public class ConvertersTest {
         List<String> expected = new ArrayList<>();
         expected.add("(file.function$MY_LABEL)");
 
-        assertIterableEquals(expected, Converters.LABEL.apply("label MY_LABEL" + " file" + " function"));
+        assertIterableEquals(expected, Converters.LABEL.apply("label MY_LABEL file function"));
+    }
+
+    @Test
+    void shouldReturnExpectedAssemblyCode_whenFunction() {
+        List<String> expected = new ArrayList<>();
+        expected.add("(file.myFunction)");
+        expected.add("@0");
+        expected.add("D=A");
+        expected.add("@SP");
+        expected.add("AM=M+1");
+        expected.add("A=A-1");
+        expected.add("M=D");
+        expected.add("@0");
+        expected.add("D=A");
+        expected.add("@SP");
+        expected.add("AM=M+1");
+        expected.add("A=A-1");
+        expected.add("M=D");
+        expected.add("@0");
+        expected.add("D=A");
+        expected.add("@SP");
+        expected.add("AM=M+1");
+        expected.add("A=A-1");
+        expected.add("M=D");
+
+        assertIterableEquals(expected, Converters.FUNCTION.apply("function myFunction 3 file"));
     }
 
 }

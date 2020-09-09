@@ -321,4 +321,19 @@ public final class Converters {
         return assemblyCommands;
     };
 
+    public static final Function<String, List<String>> FUNCTION = (s) -> {
+        final List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add(String.format("(%s.%s)", s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
+
+        int argCount = Integer.parseInt(s.split(CMD_SEPARATOR)[2]);
+
+        for (int i = 0; i < argCount; i++) {
+            assemblyCommands.add("@0");
+            assemblyCommands.add("D=A");
+            assemblyCommands.addAll(PUSH);
+        }
+
+        return assemblyCommands;
+    };
+
 }

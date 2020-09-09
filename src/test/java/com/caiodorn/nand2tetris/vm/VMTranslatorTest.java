@@ -36,9 +36,9 @@ public class VMTranslatorTest {
 
     @Test
     void shouldGenerateOutputFile_whenDirectory() {
-        VMTranslator.main(new String[] {"src/test/resources/ProgramFlow/FibonacciSeries"});
+        VMTranslator.main(new String[] {"src/test/resources"});
 
-        assertTrue(Files.exists(Paths.get("src/test/resources/ProgramFlow/FibonacciSeries/FibonacciSeries.asm")));
+        assertTrue(Files.exists(Paths.get("src/test/resources/resources.asm")));
     }
 
 }
