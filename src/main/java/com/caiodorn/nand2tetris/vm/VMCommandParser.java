@@ -35,7 +35,7 @@ public class VMCommandParser {
                 .filter(line -> !line.trim().isEmpty() && !line.trim().startsWith(commentSeparator))
                 .collect(Collectors.toList());
 
-        nonEmptyLines.forEach(line -> cleanedUpLines.add(line.split(commentSeparator)[0]));
+        nonEmptyLines.forEach(line -> cleanedUpLines.add(line.split(commentSeparator)[0].trim()));
 
         return cleanedUpLines;
     }

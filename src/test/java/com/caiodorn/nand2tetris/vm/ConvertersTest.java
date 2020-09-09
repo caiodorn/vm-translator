@@ -388,7 +388,7 @@ public class ConvertersTest {
         expected.add("AM=M-1");
         expected.add("D=M");
         expected.add("@file.function$label");
-        expected.add("D;JEQ");
+        expected.add("D;JNE");
 
         assertIterableEquals(expected, Converters.IF_GOTO.apply("if-goto label" + " file" + " function"));
     }

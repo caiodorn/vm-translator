@@ -309,7 +309,7 @@ public final class Converters {
         final List<String> assemblyCommands = new ArrayList<>();
         assemblyCommands.addAll(POP);
         assemblyCommands.add(String.format("@%s.%s$%s", s.split(CMD_SEPARATOR)[2], s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
-        assemblyCommands.add("D;JEQ");
+        assemblyCommands.add("D;JNE");
 
         return assemblyCommands;
     };

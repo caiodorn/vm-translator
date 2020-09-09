@@ -6,12 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class VMTranslator {
 
-    private static final String DIR_SEPARATOR = "/";
-    private static final String FILE_EXT_SEPARATOR = "\\.";
     private static final String ASM_EXTENSION = ".asm";
 
     public static void main(String[] args) {
@@ -19,19 +16,18 @@ public class VMTranslator {
             throw new RuntimeException("Path to file or directory must be provided for parsing!");
         }
 
-        final String path = args[0];
-
         try {
             final List<String> assemblyCode = new ArrayList<>();
+            final Path path = Path.of(args[0]);
             String outputFileName;
             AsmDefaults.initialize(assemblyCode);
 
-            if (Files.isDirectory(Path.of(path))) {
+            if (Files.isDirectory(path)) {
                 processDirectory(path, assemblyCode);
-                outputFileName = path + path.substring(path.lastIndexOf(DIR_SEPARATOR)) + ASM_EXTENSION;
+                outputFileName = Path.of(path.toString(), path.getFileName().toString() + ASM_EXTENSION).toString();
             } else {
                 processFile(path, assemblyCode);
-                outputFileName = path.split(FILE_EXT_SEPARATOR)[0] + ASM_EXTENSION;
+                outputFileName = Path.of(path.getParent().toString(), path.getFileName().toString().split("\\.")[0] + ASM_EXTENSION).toString();
             }
 
             AsmDefaults.finalize(assemblyCode);
@@ -41,32 +37,27 @@ public class VMTranslator {
         }
     }
 
-    private static void processDirectory(String path, List<String> assemblyCode) throws IOException {
-        Stream.of(Files.newDirectoryStream(Path.of(path)))
-                .filter(fullyQualifiedFileName -> fullyQualifiedFileName.toString().contains(".vm"))
+    private static void processDirectory(Path path, List<String> assemblyCode) throws IOException {
+        Files.newDirectoryStream(path)
                 .forEach(fullyQualifiedFileName -> {
                     try {
-                        processFile(fullyQualifiedFileName.toString(), assemblyCode);
+                        if (fullyQualifiedFileName.toString().contains(".vm")) {
+                            processFile(fullyQualifiedFileName, assemblyCode);
+                        }
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 });
     }
 
-    private static void processFile(String fullyQualifiedFileName, List<String> assemblyCode) throws IOException {
-        List<String> rawLines = Files.readAllLines(Paths.get(fullyQualifiedFileName));
+    private static void processFile(Path path, List<String> assemblyCode) throws IOException {
+        List<String> rawLines = Files.readAllLines(path);
 
         if (rawLines.isEmpty()) {
             throw new RuntimeException("File cannot be empty!");
         }
 
-        assemblyCode.addAll(new VMCommandParser(getFileNameWithoutExtension(fullyQualifiedFileName)).toAssembly(rawLines));
-    }
-
-    private static String getFileNameWithoutExtension(String fullyQualifiedFileName) {
-        return fullyQualifiedFileName
-                .substring(fullyQualifiedFileName.lastIndexOf(DIR_SEPARATOR) + 1)
-                .split(FILE_EXT_SEPARATOR)[0];
+        assemblyCode.addAll(new VMCommandParser(path.getFileName().toString()).toAssembly(rawLines));
     }
 
 }
