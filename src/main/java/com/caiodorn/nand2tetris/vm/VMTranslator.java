@@ -27,7 +27,7 @@ public class VMTranslator {
                 outputFileName = Path.of(path.toString(), path.getFileName().toString() + ASM_EXTENSION).toString();
             } else {
                 processFile(path, assemblyCode);
-                outputFileName = Path.of(path.getParent().toString(), path.getFileName().toString().split("\\.")[0] + ASM_EXTENSION).toString();
+                outputFileName = Path.of(path.getParent().toString(), getFilenameWithoutExtension(path) + ASM_EXTENSION).toString();
             }
 
             AsmDefaults.finalize(assemblyCode);
@@ -57,7 +57,11 @@ public class VMTranslator {
             throw new RuntimeException("File cannot be empty!");
         }
 
-        assemblyCode.addAll(new VMCommandParser(path.getFileName().toString()).toAssembly(rawLines));
+        assemblyCode.addAll(new VMCommandParser(getFilenameWithoutExtension(path)).toAssembly(rawLines));
+    }
+
+    private static String getFilenameWithoutExtension(Path path) {
+        return path.getFileName().toString().split("\\.")[0];
     }
 
 }
