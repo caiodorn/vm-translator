@@ -146,9 +146,8 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> POP_POINTER = (s) -> {
-        final List<String> assemblyCommands = new ArrayList<>();
-        final int thisOrThat = Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
-        assemblyCommands.addAll(POP);
+        final int thisOrThat = Integer.parseInt(s.split(CMD_SEPARATOR)[2]);
+        final List<String> assemblyCommands = new ArrayList<>(POP);
         assemblyCommands.add(thisOrThat == 0 ? "@THIS" : "@THAT");
         assemblyCommands.add("M=D");
 
@@ -157,7 +156,7 @@ public final class Converters {
 
     public static final Function<String, List<String>> PUSH_POINTER = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        final int thisOrThat = Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
+        final int thisOrThat = Integer.parseInt(s.split(CMD_SEPARATOR)[2]);
         assemblyCommands.add(thisOrThat == 0 ? "@THIS" : "@THAT");
         assemblyCommands.add("D=M");
         assemblyCommands.addAll(PUSH);
@@ -167,8 +166,7 @@ public final class Converters {
 
 
     public static final Function<String, List<String>> POP_STATIC = (s) -> {
-        final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(POP);
+        final List<String> assemblyCommands = new ArrayList<>(POP);
         assemblyCommands.add(String.format("@%s.%s", s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[2]));
         assemblyCommands.add("M=D");
 
@@ -185,9 +183,8 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> POP_TEMP = (s) -> {
-        final int addr = TEMP_BASE_ADDR + Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
-        final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(POP);
+        final int addr = TEMP_BASE_ADDR + Integer.parseInt(s.split(CMD_SEPARATOR)[2]);
+        final List<String> assemblyCommands = new ArrayList<>(POP);
         assemblyCommands.add("@" + addr);
         assemblyCommands.add("M=D");
 
@@ -195,7 +192,7 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> PUSH_TEMP = (s) -> {
-        final int addr = TEMP_BASE_ADDR + Integer.valueOf(s.split(CMD_SEPARATOR)[2]);
+        final int addr = TEMP_BASE_ADDR + Integer.parseInt(s.split(CMD_SEPARATOR)[2]);
         final List<String> assemblyCommands = new ArrayList<>();
         assemblyCommands.add("@" + addr);
         assemblyCommands.add("D=M");
@@ -205,8 +202,7 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> ADD = (s) -> {
-        final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(POP);
+        final List<String> assemblyCommands = new ArrayList<>(POP);
         assemblyCommands.add("A=A-1");
         assemblyCommands.add("M=M+D");
 
@@ -214,8 +210,7 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> SUB = (s) -> {
-        final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(POP);
+        final List<String> assemblyCommands = new ArrayList<>(POP);
         assemblyCommands.add("A=A-1");
         assemblyCommands.add("M=M-D");
 
@@ -271,8 +266,7 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> AND = (s) -> {
-        final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(POP);
+        final List<String> assemblyCommands = new ArrayList<>(POP);
         assemblyCommands.add("A=A-1");
         assemblyCommands.add("M=D&M");
 
@@ -280,8 +274,7 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> OR = (s) -> {
-        final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(POP);
+        final List<String> assemblyCommands = new ArrayList<>(POP);
         assemblyCommands.add("A=A-1");
         assemblyCommands.add("M=D|M");
 
@@ -306,8 +299,7 @@ public final class Converters {
     };
 
     public static final Function<String, List<String>> IF_GOTO = (s) -> {
-        final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(POP);
+        final List<String> assemblyCommands = new ArrayList<>(POP);
         assemblyCommands.add(String.format("@%s.%s$%s", s.split(CMD_SEPARATOR)[2], s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
         assemblyCommands.add("D;JNE");
 
