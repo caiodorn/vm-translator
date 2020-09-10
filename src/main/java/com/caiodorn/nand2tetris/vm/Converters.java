@@ -328,4 +328,18 @@ public final class Converters {
         return assemblyCommands;
     };
 
+    public static final Function<String, List<String>> RETURN = (s) -> {
+        final List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("");
+
+        return assemblyCommands;
+    };
+
+    public static final Function<String, List<String>> CALL = (s) -> {
+        final List<String> assemblyCommands = new ArrayList<>();
+        assemblyCommands.add("");
+
+        return assemblyCommands;
+    };
+
 }

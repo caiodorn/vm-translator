@@ -33,7 +33,8 @@ public enum VMCommandTypeEnum {
     IF_GOTO("if-goto"),
     LABEL("label"),
     FUNCTION("function"),
-    RETURN("return");
+    RETURN("return"),
+    CALL("call");
 
     private final String type;
 

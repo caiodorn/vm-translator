@@ -49,7 +49,7 @@ public class VMCommandParser {
     }
 
     private void updateFunctionStack(String vmCommand) {
-        if (VMCommandTypeEnum.FUNCTION.equals(getCommandType(vmCommand))) {
+        if (vmCommand.startsWith(VMCommandTypeEnum.FUNCTION.getType())) {
             currentFunction.push(vmCommand.split(PART_SEPARATOR)[1]);
         } else if (VMCommandTypeEnum.RETURN.equals(getCommandType(vmCommand))) {
             currentFunction.pop();
@@ -57,7 +57,15 @@ public class VMCommandParser {
     }
 
     private VMCommandTypeEnum getCommandType(String vmCommand) {
-        return VMCommandTypeEnum.of(removeValueIfAny(vmCommand));
+        VMCommandTypeEnum type;
+
+        if (vmCommand.startsWith(VMCommandTypeEnum.FUNCTION.getType()) || vmCommand.startsWith(VMCommandTypeEnum.CALL.getType())) {
+            type = VMCommandTypeEnum.of(vmCommand.split(PART_SEPARATOR)[0]);
+        } else {
+            type = VMCommandTypeEnum.of(removeValueIfAny(vmCommand));
+        }
+
+        return type;
     }
 
     private String removeValueIfAny(String vmCommand) {
