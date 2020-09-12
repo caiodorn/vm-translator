@@ -112,23 +112,23 @@ public class VMTranslatorTest {
         compareFiles(Path.of(PROJECT8_EXPECTATIONS_FUNCTION_CALLS + "/SimpleFunction.asm"), Path.of(currentPath + "/SimpleFunction.asm"));
     }
 
-//    @Test
-//    void shouldGenerateOutputFile_whenDirectory_NestedCall() {
-//        currentPath = PROJECT8_FUNCTION_CALLS + "/NestedCall";
-//
-//        VMTranslator.main(new String[] {currentPath});
-//
-//        compareFiles(Path.of(PROJECT8_EXPECTATIONS_FUNCTION_CALLS + "/NestedCall.asm"), Path.of(currentPath + "/NestedCall.asm"));
-//    }
-//
-//    @Test
-//    void shouldGenerateOutputFile_whenDirectory_FibonacciElement() {
-//        currentPath = PROJECT8_FUNCTION_CALLS + "/FibonacciElement";
-//
-//        VMTranslator.main(new String[] {currentPath});
-//
-//        compareFiles(Path.of(PROJECT8_EXPECTATIONS_FUNCTION_CALLS + "/FibonacciElement.asm"), Path.of(currentPath + "/FibonacciElement.asm"));
-//    }
+    @Test
+    void shouldGenerateOutputFile_whenDirectory_NestedCall() {
+        currentPath = PROJECT8_FUNCTION_CALLS + "/NestedCall";
+
+        VMTranslator.main(new String[] {currentPath});
+
+        compareFiles(Path.of(PROJECT8_EXPECTATIONS_FUNCTION_CALLS + "/NestedCall.asm"), Path.of(currentPath + "/NestedCall.asm"));
+    }
+
+    @Test
+    void shouldGenerateOutputFile_whenDirectory_FibonacciElement() {
+        currentPath = PROJECT8_FUNCTION_CALLS + "/FibonacciElement";
+
+        VMTranslator.main(new String[] {currentPath});
+
+        compareFiles(Path.of(PROJECT8_EXPECTATIONS_FUNCTION_CALLS + "/FibonacciElement.asm"), Path.of(currentPath + "/FibonacciElement.asm"));
+    }
 
     private void compareFiles(Path expected, Path actual) {
         try {

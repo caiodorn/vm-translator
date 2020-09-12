@@ -338,28 +338,28 @@ public final class Converters {
         assemblyCommands.add("M=D");
 
         assemblyCommands.add("@LCL");
-        assemblyCommands.add("D=A");
+        assemblyCommands.add("D=M");
         assemblyCommands.add("@SP");
         assemblyCommands.add("AM=M+1");
         assemblyCommands.add("A=A-1");
         assemblyCommands.add("M=D");
 
         assemblyCommands.add("@ARG");
-        assemblyCommands.add("D=A");
+        assemblyCommands.add("D=M");
         assemblyCommands.add("@SP");
         assemblyCommands.add("AM=M+1");
         assemblyCommands.add("A=A-1");
         assemblyCommands.add("M=D");
 
         assemblyCommands.add("@THIS");
-        assemblyCommands.add("D=A");
+        assemblyCommands.add("D=M");
         assemblyCommands.add("@SP");
         assemblyCommands.add("AM=M+1");
         assemblyCommands.add("A=A-1");
         assemblyCommands.add("M=D");
 
         assemblyCommands.add("@THAT");
-        assemblyCommands.add("D=A");
+        assemblyCommands.add("D=M");
         assemblyCommands.add("@SP");
         assemblyCommands.add("AM=M+1");
         assemblyCommands.add("A=A-1");
