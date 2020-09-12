@@ -2,7 +2,6 @@ package com.caiodorn.nand2tetris.vm;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -10,16 +9,16 @@ import java.util.stream.Collectors;
 public class VMCommandParser {
 
     private static final String PART_SEPARATOR = " ";
-    private final String FILENAME;
-    private final Stack<String> currentFunction;
+    private final String filename;
     private final Predicate<String> requiresSpecialHandling = vmCommand ->
             vmCommand.startsWith(VMCommandTypeEnum.FUNCTION.getType())
             || vmCommand.startsWith(VMCommandTypeEnum.CALL.getType());
 
+    private String currentFunction;
+
     public VMCommandParser(String filename) {
-        this.FILENAME = filename;
-        this.currentFunction = new Stack<>();
-        this.currentFunction.push("Root");
+        this.filename = filename;
+        this.currentFunction = "Root";
     }
 
     public List<String> toAssembly(List<String> vmCommands) {
@@ -49,12 +48,12 @@ public class VMCommandParser {
 
         return ConverterDictionary
                 .get(getCommandType(vmCommand))
-                .apply(String.format("%s %s %s", vmCommand, FILENAME, currentFunction.peek()));
+                .apply(String.format("%s %s %s", vmCommand, filename, currentFunction));
     }
 
     private void updateFunctionStack(String vmCommand) {
         if (vmCommand.startsWith(VMCommandTypeEnum.FUNCTION.getType())) {
-            currentFunction.push(vmCommand.split(PART_SEPARATOR)[1]);
+            currentFunction = vmCommand.split(PART_SEPARATOR)[1];
         }
     }
 
