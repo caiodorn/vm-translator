@@ -299,13 +299,13 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenEq() {
         List<String> expected = new ArrayList<>();
-        expected.add(String.format("@RETURN_TO_%d", Converters.returnLabelCount + 1));
+        expected.add(String.format("@RETURN_TO_%d", Converters.getReturnLabelCount() + 1));
         expected.add("D=A");
         expected.add("@R14");
         expected.add("M=D");
         expected.add("@BEGIN_EQ");
         expected.add("0;JMP");
-        expected.add(String.format("(RETURN_TO_%d)", Converters.returnLabelCount + 1));
+        expected.add(String.format("(RETURN_TO_%d)", Converters.getReturnLabelCount() + 1));
 
         assertIterableEquals(expected, Converters.EQ.apply("eq"));
     }
@@ -313,13 +313,13 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenGt() {
         List<String> expected = new ArrayList<>();
-        expected.add(String.format("@RETURN_TO_%d", Converters.returnLabelCount + 1));
+        expected.add(String.format("@RETURN_TO_%d", Converters.getReturnLabelCount() + 1));
         expected.add("D=A");
         expected.add("@R14");
         expected.add("M=D");
         expected.add("@BEGIN_GT");
         expected.add("0;JMP");
-        expected.add(String.format("(RETURN_TO_%d)", Converters.returnLabelCount + 1));
+        expected.add(String.format("(RETURN_TO_%d)", Converters.getReturnLabelCount() + 1));
 
         assertIterableEquals(expected, Converters.GT.apply("gt"));
     }
@@ -327,13 +327,13 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenLt() {
         List<String> expected = new ArrayList<>();
-        expected.add(String.format("@RETURN_TO_%d",  Converters.returnLabelCount + 1));
+        expected.add(String.format("@RETURN_TO_%d",  Converters.getReturnLabelCount() + 1));
         expected.add("D=A");
         expected.add("@R14");
         expected.add("M=D");
         expected.add("@BEGIN_LT");
         expected.add("0;JMP");
-        expected.add(String.format("(RETURN_TO_%d)",  Converters.returnLabelCount + 1));
+        expected.add(String.format("(RETURN_TO_%d)",  Converters.getReturnLabelCount() + 1));
 
         assertIterableEquals(expected, Converters.LT.apply("lt"));
     }
@@ -430,7 +430,7 @@ public class ConvertersTest {
     @Test
     void shouldReturnExpectedAssemblyCode_whenCall() {
         List<String> expected = new ArrayList<>();
-        expected.add(String.format("@RETURN_TO_%d",  Converters.returnLabelCount + 1));
+        expected.add(String.format("@RETURN_TO_%d",  Converters.getReturnLabelCount() + 1));
         expected.add("D=A");
         expected.add("@SP");
         expected.add("AM=M+1");
@@ -438,28 +438,28 @@ public class ConvertersTest {
         expected.add("M=D");
 
         expected.add("@LCL");
-        expected.add("D=A");
+        expected.add("D=M");
         expected.add("@SP");
         expected.add("AM=M+1");
         expected.add("A=A-1");
         expected.add("M=D");
 
         expected.add("@ARG");
-        expected.add("D=A");
+        expected.add("D=M");
         expected.add("@SP");
         expected.add("AM=M+1");
         expected.add("A=A-1");
         expected.add("M=D");
 
         expected.add("@THIS");
-        expected.add("D=A");
+        expected.add("D=M");
         expected.add("@SP");
         expected.add("AM=M+1");
         expected.add("A=A-1");
         expected.add("M=D");
 
         expected.add("@THAT");
-        expected.add("D=A");
+        expected.add("D=M");
         expected.add("@SP");
         expected.add("AM=M+1");
         expected.add("A=A-1");
@@ -482,7 +482,7 @@ public class ConvertersTest {
         expected.add("@myFunction");
         expected.add("0;JMP");
 
-        expected.add(String.format("(RETURN_TO_%d)", Converters.returnLabelCount + 1));
+        expected.add(String.format("(RETURN_TO_%d)", Converters.getReturnLabelCount() + 1));
 
         assertIterableEquals(expected, Converters.CALL.apply("call myFunction 3"));
     }

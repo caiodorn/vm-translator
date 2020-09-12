@@ -26,6 +26,7 @@ public class VMTranslatorTest {
 
     @AfterEach
     public void cleanUp() throws IOException {
+        Converters.resetReturnLabelCount();
         Path path = (Path.of(currentPath));
 
         Files.newDirectoryStream(path).forEach(fullyQualifiedFileName -> {
@@ -75,7 +76,6 @@ public class VMTranslatorTest {
         compareFiles(Path.of(PROJECT7_EXPECTATIONS_STACK_ARITHMETIC + "/SimpleAdd.asm"), Path.of(currentPath + "/SimpleAdd.asm"));
     }
 
-    //TODO this test randomly fails (seems to be related with Gradle, not sure why it fails)
     @Test
     void shouldGenerateOutputFile_whenSingleFile_StackTest() {
         currentPath = PROJECT7_STACK_ARITHMETIC + "/StackTest";

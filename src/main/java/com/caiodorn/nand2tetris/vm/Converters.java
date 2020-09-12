@@ -8,8 +8,7 @@ public final class Converters {
 
     private static final String CMD_SEPARATOR = " ";
     private static final int TEMP_BASE_ADDR = 5;
-
-    public  static int returnLabelCount = 0;
+    private static int returnLabelCount = 0;
 
     private static final List<String> PUSH = List.of(
             "@SP",
@@ -448,5 +447,13 @@ public final class Converters {
 
         return assemblyCommands;
     };
+
+    public static int getReturnLabelCount() {
+        return returnLabelCount;
+    }
+
+    public static void resetReturnLabelCount() {
+        returnLabelCount = 0;
+    }
 
 }
