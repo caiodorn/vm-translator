@@ -14,7 +14,7 @@ public class AsmDefaultsTest {
         List<String> expected = getInitializeDefaultCommands();
         List<String> actual = new ArrayList<>();
 
-        AsmDefaults.initialize(actual);
+        AsmDefaults.initialize(actual, false);
 
         assertArrayEquals(expected.toArray(), actual.toArray());
     }

@@ -81,4 +81,19 @@ class ConverterDictionaryTest {
         assertNotNull(ConverterDictionary.get(VMCommandTypeEnum.LABEL));
     }
 
+    @Test
+    void shouldReturnConverter_whenIfFunctionType() {
+        assertNotNull(ConverterDictionary.get(VMCommandTypeEnum.FUNCTION));
+    }
+
+    @Test
+    void shouldReturnConverter_whenReturnType() {
+        assertNotNull(ConverterDictionary.get(VMCommandTypeEnum.RETURN));
+    }
+
+    @Test
+    void shouldReturnConverter_whenCallType() {
+        assertNotNull(ConverterDictionary.get(VMCommandTypeEnum.CALL));
+    }
+
 }

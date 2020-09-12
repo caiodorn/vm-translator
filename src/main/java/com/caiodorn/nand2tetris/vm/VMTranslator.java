@@ -20,12 +20,13 @@ public class VMTranslator {
             final List<String> assemblyCode = new ArrayList<>();
             final Path path = Path.of(args[0]);
             String outputFileName;
-            AsmDefaults.initialize(assemblyCode);
 
             if (Files.isDirectory(path)) {
+                AsmDefaults.initialize(assemblyCode, true);
                 processDirectory(path, assemblyCode);
                 outputFileName = Path.of(path.toString(), path.getFileName().toString() + ASM_EXTENSION).toString();
             } else {
+                AsmDefaults.initialize(assemblyCode, false);
                 processFile(path, assemblyCode);
                 outputFileName = Path.of(path.getParent().toString(), getFilenameWithoutExtension(path) + ASM_EXTENSION).toString();
             }

@@ -292,7 +292,7 @@ public final class Converters {
 
     public static final Function<String, List<String>> GOTO = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add(String.format("@%s.%s$%s", s.split(CMD_SEPARATOR)[2], s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
+        assemblyCommands.add(String.format("@%s$%s", s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
         assemblyCommands.add("0;JMP");
 
         return assemblyCommands;
@@ -300,7 +300,7 @@ public final class Converters {
 
     public static final Function<String, List<String>> IF_GOTO = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>(POP);
-        assemblyCommands.add(String.format("@%s.%s$%s", s.split(CMD_SEPARATOR)[2], s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
+        assemblyCommands.add(String.format("@%s$%s", s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
         assemblyCommands.add("D;JNE");
 
         return assemblyCommands;
@@ -308,14 +308,14 @@ public final class Converters {
 
     public static final Function<String, List<String>> LABEL = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add(String.format("(%s.%s$%s)", s.split(CMD_SEPARATOR)[2], s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
+        assemblyCommands.add(String.format("(%s$%s)", s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
 
         return assemblyCommands;
     };
 
     public static final Function<String, List<String>> FUNCTION = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add(String.format("(%s.%s)", s.split(CMD_SEPARATOR)[3], s.split(CMD_SEPARATOR)[1]));
+        assemblyCommands.add(String.format("(%s)", s.split(CMD_SEPARATOR)[1]));
 
         int argCount = Integer.parseInt(s.split(CMD_SEPARATOR)[2]);
 
@@ -328,16 +328,123 @@ public final class Converters {
         return assemblyCommands;
     };
 
-    public static final Function<String, List<String>> RETURN = (s) -> {
+    public static final Function<String, List<String>> CALL = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add("");
+        assemblyCommands.add(String.format("@RETURN_TO_%d",  ++returnLabelCount));
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("AM=M+1");
+        assemblyCommands.add("A=A-1");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@LCL");
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("AM=M+1");
+        assemblyCommands.add("A=A-1");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@ARG");
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("AM=M+1");
+        assemblyCommands.add("A=A-1");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@THIS");
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("AM=M+1");
+        assemblyCommands.add("A=A-1");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@THAT");
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("AM=M+1");
+        assemblyCommands.add("A=A-1");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add(String.format("@%s", s.split(CMD_SEPARATOR)[2]));
+        assemblyCommands.add("D=A");
+        assemblyCommands.add("@5");
+        assemblyCommands.add("D=D+A");
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("D=M-D");
+        assemblyCommands.add("@ARG");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@LCL");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add(String.format("@%s", s.split(CMD_SEPARATOR)[1]));
+        assemblyCommands.add("0;JMP");
+
+        assemblyCommands.add(String.format("(RETURN_TO_%d)", returnLabelCount));
 
         return assemblyCommands;
     };
 
-    public static final Function<String, List<String>> CALL = (s) -> {
+    public static final Function<String, List<String>> RETURN = (s) -> {
         final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.add("");
+        assemblyCommands.add("@LCL");  // RET = *(LCL-5)
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@5");
+        assemblyCommands.add("A=D-A");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@R13");  // save RET in temp location
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@SP");   // pop
+        assemblyCommands.add("AM=M-1");
+        assemblyCommands.add("D=M");
+
+        assemblyCommands.add("@ARG");  // *ARG = pop()
+        assemblyCommands.add("A=M");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@ARG");  // SP = ARG+1
+        assemblyCommands.add("D=M+1");
+        assemblyCommands.add("@SP");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@LCL");  // THAT = *(LCL-1)
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@1");
+        assemblyCommands.add("A=D-A");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@THAT");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@LCL");  // THIS = *(LCL-2)
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@2");
+        assemblyCommands.add("A=D-A");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@THIS");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@LCL");  // ARG = *(LCL-3)
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@3");
+        assemblyCommands.add("A=D-A");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@ARG");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@LCL");  // LCL = *(LCL-4)
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@4");
+        assemblyCommands.add("A=D-A");
+        assemblyCommands.add("D=M");
+        assemblyCommands.add("@LCL");
+        assemblyCommands.add("M=D");
+
+        assemblyCommands.add("@R13");  // goto RET
+        assemblyCommands.add("A=M");
+        assemblyCommands.add("0;JMP");
 
         return assemblyCommands;
     };

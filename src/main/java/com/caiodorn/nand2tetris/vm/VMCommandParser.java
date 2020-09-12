@@ -19,13 +19,13 @@ public class VMCommandParser {
     public VMCommandParser(String filename) {
         this.FILENAME = filename;
         this.currentFunction = new Stack<>();
-        this.currentFunction.push("main");
+        this.currentFunction.push("Root");
     }
 
     public List<String> toAssembly(List<String> vmCommands) {
         final List<String> asmCommands = new ArrayList<>();
         removeInvalidChars(vmCommands).forEach(
-                command -> asmCommands.addAll(convertCommand(command.toLowerCase()))
+                command -> asmCommands.addAll(convertCommand(command))
         );
 
         return asmCommands;
@@ -55,8 +55,6 @@ public class VMCommandParser {
     private void updateFunctionStack(String vmCommand) {
         if (vmCommand.startsWith(VMCommandTypeEnum.FUNCTION.getType())) {
             currentFunction.push(vmCommand.split(PART_SEPARATOR)[1]);
-        } else if (VMCommandTypeEnum.RETURN.equals(getCommandType(vmCommand))) {
-            currentFunction.pop();
         }
     }
 
