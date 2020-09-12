@@ -2,22 +2,29 @@ package com.caiodorn.nand2tetris.vm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
 public class VMCommandParser {
 
-    public static final String PART_SEPARATOR = " ";
-    private final String FILENAME;
+    private static final String PART_SEPARATOR = " ";
+    private final String filename;
+    private final Predicate<String> requiresSpecialHandling = vmCommand ->
+            vmCommand.startsWith(VMCommandTypeEnum.FUNCTION.getType())
+            || vmCommand.startsWith(VMCommandTypeEnum.CALL.getType());
+
+    private String currentFunction;
 
     public VMCommandParser(String filename) {
-        this.FILENAME = filename;
+        this.filename = filename;
+        this.currentFunction = "Root";
     }
 
     public List<String> toAssembly(List<String> vmCommands) {
         final List<String> asmCommands = new ArrayList<>();
         removeInvalidChars(vmCommands).forEach(
-                command -> asmCommands.addAll(convertCommand(command.toLowerCase()))
+                command -> asmCommands.addAll(convertCommand(command))
         );
 
         return asmCommands;
@@ -25,28 +32,41 @@ public class VMCommandParser {
 
     private List<String> removeInvalidChars(List<String> rawLines) {
         final List<String> cleanedUpLines = new ArrayList<>();
-        String commentDelimiter = "//";
+        String commentSeparator = "//";
 
         List<String> nonEmptyLines = rawLines.stream()
-                .filter(line -> !line.trim().isEmpty() && !line.trim().startsWith(commentDelimiter))
+                .filter(line -> !line.trim().isEmpty() && !line.trim().startsWith(commentSeparator))
                 .collect(Collectors.toList());
 
-        nonEmptyLines.forEach(line -> cleanedUpLines.add(line.split(commentDelimiter)[0]));
+        nonEmptyLines.forEach(line -> cleanedUpLines.add(line.split(commentSeparator)[0].trim()));
 
         return cleanedUpLines;
     }
 
     private List<String> convertCommand(String vmCommand) {
-        final List<String> assemblyCommands = new ArrayList<>();
-        assemblyCommands.addAll(
-                ConverterDictionary.get(getCommandType(vmCommand)).apply(vmCommand + PART_SEPARATOR + FILENAME)
-        );
+        updateFunctionStack(vmCommand);
 
-        return assemblyCommands;
+        return ConverterDictionary
+                .get(getCommandType(vmCommand))
+                .apply(String.format("%s %s %s", vmCommand, filename, currentFunction));
+    }
+
+    private void updateFunctionStack(String vmCommand) {
+        if (vmCommand.startsWith(VMCommandTypeEnum.FUNCTION.getType())) {
+            currentFunction = vmCommand.split(PART_SEPARATOR)[1];
+        }
     }
 
     private VMCommandTypeEnum getCommandType(String vmCommand) {
-        return VMCommandTypeEnum.of(removeValueIfAny(vmCommand));
+        VMCommandTypeEnum type;
+
+        if (requiresSpecialHandling.test(vmCommand)) {
+            type = VMCommandTypeEnum.of(vmCommand.split(PART_SEPARATOR)[0]);
+        } else {
+            type = VMCommandTypeEnum.of(removeValueIfAny(vmCommand));
+        }
+
+        return type;
     }
 
     private String removeValueIfAny(String vmCommand) {

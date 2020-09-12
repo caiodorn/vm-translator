@@ -10,11 +10,21 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 public class AsmDefaultsTest {
 
     @Test
-    void shouldAddDefaultInitDefaultCommands_whenInitialize() {
-        List<String> expected = getInitializeDefaultCommands();
+    void shouldAddDefaultInitDefaultCommands_whenInitialize_givenFile() {
+        List<String> expected = getInitializeDefaultCommands(false);
         List<String> actual = new ArrayList<>();
 
-        AsmDefaults.initialize(actual);
+        AsmDefaults.initialize(actual, false);
+
+        assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+
+    @Test
+    void shouldAddDefaultInitDefaultCommands_whenInitialize_givenDirectory() {
+        List<String> expected = getInitializeDefaultCommands(true);
+        List<String> actual = new ArrayList<>();
+
+        AsmDefaults.initialize(actual, true);
 
         assertArrayEquals(expected.toArray(), actual.toArray());
     }
@@ -29,29 +39,9 @@ public class AsmDefaultsTest {
         assertArrayEquals(expected.toArray(), actual.toArray());
     }
 
-    private List<String> getInitializeDefaultCommands() {
+    private List<String> getInitializeDefaultCommands(boolean isDirectory) {
         List<String> asmCommands = new ArrayList<>();
         //init pointers
-        asmCommands.add("@256");
-        asmCommands.add("D=A");
-        asmCommands.add("@SP");
-        asmCommands.add("M=D");
-        asmCommands.add("@300");
-        asmCommands.add("D=A");
-        asmCommands.add("@LCL");
-        asmCommands.add("M=D");
-        asmCommands.add("@400");
-        asmCommands.add("D=A");
-        asmCommands.add("@ARG");
-        asmCommands.add("M=D");
-        asmCommands.add("@3000");
-        asmCommands.add("D=A");
-        asmCommands.add("@THIS");
-        asmCommands.add("M=D");
-        asmCommands.add("@3010");
-        asmCommands.add("D=A");
-        asmCommands.add("@THAT");
-        asmCommands.add("M=D");
         asmCommands.add("@PROGRAM_START");
         asmCommands.add("0;JMP");
 
@@ -110,6 +100,66 @@ public class AsmDefaultsTest {
         asmCommands.add("0;JMP");
 
         asmCommands.add("(PROGRAM_START)"); // actual program starts after this line -- must be last!
+        asmCommands.add("@256");            // init SP
+        asmCommands.add("D=A");
+        asmCommands.add("@SP");
+        asmCommands.add("M=D");
+        
+        if (isDirectory) {
+            asmCommands.add(String.format("@RETURN_TO_%d",  Converters.getReturnLabelCount() + 1));
+            asmCommands.add("D=A");
+            asmCommands.add("@SP");
+            asmCommands.add("AM=M+1");
+            asmCommands.add("A=A-1");
+            asmCommands.add("M=D");
+
+            asmCommands.add("@LCL");
+            asmCommands.add("D=M");
+            asmCommands.add("@SP");
+            asmCommands.add("AM=M+1");
+            asmCommands.add("A=A-1");
+            asmCommands.add("M=D");
+
+            asmCommands.add("@ARG");
+            asmCommands.add("D=M");
+            asmCommands.add("@SP");
+            asmCommands.add("AM=M+1");
+            asmCommands.add("A=A-1");
+            asmCommands.add("M=D");
+
+            asmCommands.add("@THIS");
+            asmCommands.add("D=M");
+            asmCommands.add("@SP");
+            asmCommands.add("AM=M+1");
+            asmCommands.add("A=A-1");
+            asmCommands.add("M=D");
+
+            asmCommands.add("@THAT");
+            asmCommands.add("D=M");
+            asmCommands.add("@SP");
+            asmCommands.add("AM=M+1");
+            asmCommands.add("A=A-1");
+            asmCommands.add("M=D");
+
+            asmCommands.add(String.format("@%s", "call Sys.init 0".split(" ")[2]));
+            asmCommands.add("D=A");
+            asmCommands.add("@5");
+            asmCommands.add("D=D+A");
+            asmCommands.add("@SP");
+            asmCommands.add("D=M-D");
+            asmCommands.add("@ARG");
+            asmCommands.add("M=D");
+
+            asmCommands.add("@SP");
+            asmCommands.add("D=M");
+            asmCommands.add("@LCL");
+            asmCommands.add("M=D");
+
+            asmCommands.add(String.format("@%s", "call Sys.init 0".split(" ")[1]));
+            asmCommands.add("0;JMP");
+
+            asmCommands.add(String.format("(RETURN_TO_%d)", Converters.getReturnLabelCount() + 1));
+        }
 
         return asmCommands;
     }

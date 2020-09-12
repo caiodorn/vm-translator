@@ -4,33 +4,7 @@ import java.util.List;
 
 public final class AsmDefaults {
 
-    public static void initialize(List<String> asmCommands) {
-        //init pointers
-        asmCommands.add("@256");
-        asmCommands.add("D=A");
-        asmCommands.add("@SP");
-        asmCommands.add("M=D");
-
-        asmCommands.add("@300");
-        asmCommands.add("D=A");
-        asmCommands.add("@LCL");
-        asmCommands.add("M=D");
-
-        asmCommands.add("@400");
-        asmCommands.add("D=A");
-        asmCommands.add("@ARG");
-        asmCommands.add("M=D");
-
-        asmCommands.add("@3000");
-        asmCommands.add("D=A");
-        asmCommands.add("@THIS");
-        asmCommands.add("M=D");
-
-        asmCommands.add("@3010");
-        asmCommands.add("D=A");
-        asmCommands.add("@THAT");
-        asmCommands.add("M=D");
-
+    public static void initialize(List<String> asmCommands, boolean isDirectory) {
         asmCommands.add("@PROGRAM_START");
         asmCommands.add("0;JMP");
 
@@ -89,6 +63,14 @@ public final class AsmDefaults {
         asmCommands.add("0;JMP");
 
         asmCommands.add("(PROGRAM_START)"); // actual program starts after this line -- must be last!
+        asmCommands.add("@256");            // init SP
+        asmCommands.add("D=A");
+        asmCommands.add("@SP");
+        asmCommands.add("M=D");
+
+        if (isDirectory) {
+            asmCommands.addAll(Converters.CALL.apply("call Sys.init 0"));
+        }
     }
 
     public static void finalize(List<String> asmCommands) {
