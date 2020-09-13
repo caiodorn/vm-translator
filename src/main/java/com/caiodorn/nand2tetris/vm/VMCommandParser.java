@@ -2,7 +2,6 @@ package com.caiodorn.nand2tetris.vm;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -10,10 +9,6 @@ public class VMCommandParser {
 
     private static final String PART_SEPARATOR = " ";
     private final String filename;
-    private final Predicate<String> requiresSpecialHandling = vmCommand ->
-            vmCommand.startsWith(VMCommandTypeEnum.FUNCTION.getType())
-            || vmCommand.startsWith(VMCommandTypeEnum.CALL.getType());
-
     private String currentFunction;
 
     public VMCommandParser(String filename) {
@@ -60,13 +55,18 @@ public class VMCommandParser {
     private VMCommandTypeEnum getCommandType(String vmCommand) {
         VMCommandTypeEnum type;
 
-        if (requiresSpecialHandling.test(vmCommand)) {
+        if (isFunctionOrCall(vmCommand)) {
             type = VMCommandTypeEnum.of(vmCommand.split(PART_SEPARATOR)[0]);
         } else {
             type = VMCommandTypeEnum.of(removeValueIfAny(vmCommand));
         }
 
         return type;
+    }
+
+    private boolean isFunctionOrCall(String vmCommand) {
+        return vmCommand.startsWith(VMCommandTypeEnum.FUNCTION.getType())
+                || vmCommand.startsWith(VMCommandTypeEnum.CALL.getType());
     }
 
     private String removeValueIfAny(String vmCommand) {
